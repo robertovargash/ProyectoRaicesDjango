@@ -20,5 +20,4 @@ urlpatterns = [
     path('mercancias/nuevo/', MercanciasCreateView.as_view(), name='crear_mercancias'),
     path('mercancias/<int:pk>/delete/', MercanciasDeleteView.as_view(), name='eliminar_mercancias'),
     path('mercancias/<int:pk>/update/', MercanciasUpdateView.as_view(), name='editar_mercancias'),
-    # path('mercancias/<int:pk>/update/', MercanciasUpdateView.as_view(), name='editar_mercancias'),
 ]
