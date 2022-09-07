@@ -1,0 +1,114 @@
+{% extends "starter.html" %}
+{% block content %}
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+                <div class="pull-right">
+                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAdd">Nueva mercancia</button>
+                </div>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </section>
+      <section class="content">
+        <div class="content-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Clasificaciones</h3>
+                </div>
+                <div class="card-body">
+                  <table id="tabla" class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th>Codigo</th>
+                          <th>Mercancia</th>
+                          <th>UM</th>
+                          <th>Clasificacion</th>
+                          <th>Detalles</th>
+                          <th></th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        {% for mercancia in object_list %}
+                        <tr>
+                            <td>{{ mercancia.codigo }}</td>
+                            <td>{{ mercancia.nombremercancia }}</td>
+                            <td>{{ mercancia.um }}</td>
+                            <td>{{ mercancia.clasificacion.clasificacion }}</td>
+                            <td>{{ mercancia.descripcion }}</td>
+                             <td>
+                                <div>
+                                    <!-- <a href="" class="btn btn-link text-info">Detalles</a>                                   -->
+                                    <a href="{% url 'editar_mercancias' pk=mercancia.id %}" class="btn btn-link text-primary">Editar</a>
+                                    <a href="{% url 'eliminar_mercancias' mercancia.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#delete-item-modal" onclick="delete_item(this)"><span class="fas fa-trash text-danger"></a>
+                                 </div>
+                            </td>
+                        </tr>
+                        {% endfor %} 
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th>Codigo</th>
+                          <th>Mercancia</th>
+                          <th>UM</th>
+                          <th>Clasificacion</th>
+                          <th>Detalles</th>
+                          <th></th>
+                        </tr>
+                      </tfoot>
+                  </table>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+      </section>
+</div>
+{% include 'mercancia/modals/delete_modal.html' %}
+{% include 'mercancia/modals/add_modal.html' %}
+
+  {% endblock %}
+  {% block script %}
+
+<script type="text/javascript">
+  function delete_item(selected_item){
+        document.getElementById("item-delete-form").action = selected_item.href
+  }
+  $(function () {
+    $('#tabla').DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+  });
+
+  $(document).ready(function () {
+    $('#addclasificacion').validate({
+      rules: {
+        clasificacion: {
+          required: true,
+        },
+      },
+      messages: {
+        clasificacion: {
+          required: "Inserte el nombre de clasificación",
+        },
+      },
+      errorElement: 'span',
+      errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+      },
+      highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+      },
+      unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+      }
+    });
+  });
+</script>
+  {% endblock %}

@@ -1,0 +1,77 @@
+{% extends "starter.html" %}
+{% block content %}
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <div class="col-lg-12 margin-tb">
+                <div class="pull-left">
+                  <h2>Editando mercancia</h2>
+                </div>
+                <div class="pull-right">
+                    <a class="btn btn-primary" href="{% url 'mercancias' %}"> Atrás</a>
+                </div>
+              </div>              
+            </div>           
+          </div><!-- /.row -->         
+        </div><!-- /.container-fluid -->
+      </div>
+      <div class="content">
+        <div class="container-fluid">
+          <div class="card text-left">
+            <img class="card-img-top">
+            <div class="card-body">
+              <form id="addclasificacion" method="POST">
+                {% csrf_token %}        
+                 <div class="row">
+                    {% for field in form.visible_fields %}
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>{{ field.label }}</strong>
+                            {{ field }}
+                        </div>
+                    </div>
+                    {%endfor%}
+                    <!-- {{form}} -->
+                    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                      <button type="submit" class="btn btn-primary">Actualizar</button>
+                    </div>
+                </div>
+            </form>
+            </div>
+          </div>
+
+        </div><!-- /.container-fluid -->
+      </div>
+</div>    
+{% endblock %}
+{% block script %}
+<script>
+//   $(document).ready(function () {
+//     $('#addclasificacion').validate({
+//       rules: {
+//         clasificacion: {
+//           required: true,
+//         },
+//       },
+//       messages: {
+//         clasificacion: {
+//           required: "Inserte el nombre de clasificación",
+//         },
+//       },
+//       errorElement: 'span',
+//       errorPlacement: function (error, element) {
+//         error.addClass('invalid-feedback');
+//         element.closest('.form-group').append(error);
+//       },
+//       highlight: function (element, errorClass, validClass) {
+//         $(element).addClass('is-invalid');
+//       },
+//       unhighlight: function (element, errorClass, validClass) {
+//         $(element).removeClass('is-invalid');
+//       }
+//     });    
+//   });
+</script>
+{% endblock %}

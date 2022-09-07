@@ -1,0 +1,60 @@
+{% extends "starter.html" %}
+{% block content %}
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <div class="col-lg-12 margin-tb">
+                <div class="pull-left">
+                  <h2>Inserte nueva clasificación</h2>
+              </div>
+              <div class="pull-right">
+                  <a class="btn btn-primary" href="{% url 'mercancias' %}"> Atrás</a>
+              </div>
+              </div>              
+            </div>           
+          </div><!-- /.row -->         
+        </div><!-- /.container-fluid -->
+      </div>
+      <div class="content">
+        <div class="container-fluid">
+          <div class="card text-left">
+            <img class="card-img-top">
+            <div class="card-body">
+              <h4 class="card-title"></h4>
+              <div class="row">
+                <form method="POST">
+                    {% csrf_token %}
+                    <!-- {{form}} -->
+                    {% for field in form.visible_fields %}
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>{{ field.label }}</strong>
+                            {{ field }}
+                        </div>
+                    </div>
+                    {%endfor%}
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-success btn-block">Crear</button>
+                    </div>
+                  </form>
+              </div>
+            </div>
+          </div>
+          <!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div> 
+</div>
+{% endblock %}
+<script type="text/javascript">
+
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+  });
+</script>
