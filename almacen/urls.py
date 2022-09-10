@@ -4,7 +4,7 @@ from polls import views
 from almacen.views import *
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    # path('', views.home, name='home'),
     
     path('almacenes/', AlmacenesListView.as_view(), name='almacenes'),
     path('almacenes/nuevo', AlmacenesCreateView.as_view(), name='crear_almacen'),
@@ -20,4 +20,12 @@ urlpatterns = [
     path('mercancias/nuevo/', MercanciasCreateView.as_view(), name='crear_mercancias'),
     path('mercancias/<int:pk>/delete/', MercanciasDeleteView.as_view(), name='eliminar_mercancias'),
     path('mercancias/<int:pk>/update/', MercanciasUpdateView.as_view(), name='editar_mercancias'),
+
+
+    # path('recepcion/nuevo/', RecepcionCreateView.as_view(), name='crear_recepcion'),
+    path('recepcion/nuevo/', add_recepcion_view, name='crear_recepcion'),
+    path('recepcion/<int:pk>/update/', edit_recepcion_view, name='editar_recepcion'),
+    path('recepcion/<int:pk>/delete/', delete_recepcion_view, name='eliminar_recepcion'),
+    # path('recepcion/<int:pk>/delete/', RecepcionDeleteView.as_view(), name='eliminar_recepcion'),
+    # path('recepcion/<int:pk>/update/', RecepcionUpdateView.as_view(), name='editar_recepcion'),
 ]

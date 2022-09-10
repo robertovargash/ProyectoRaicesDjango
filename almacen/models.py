@@ -12,10 +12,6 @@ class Clasificaciones(models.Model):
     def __str__(self):
         return self.clasificacion #esto hace que donde quiera q yo diga objeto clasificacion me sale su nombre en vez de su id
 
-    def toJSON(self):
-        item = model_to_dict(self)
-        return item
-
     class Meta:
         # verbose_name = 'Clasificaciones'
         # verbose_name_plural = 'Clasificaciones'
@@ -33,13 +29,14 @@ class Mercancia(models.Model):
     nombremercancia=models.CharField(max_length=1000)
     descripcion=models.CharField(max_length=1000)
     um=models.CharField(max_length=50)
+    precio = models.DecimalField(max_digits=18,decimal_places=6, default=0)   
     def __str__(self):
         return self.nombremercancia
 
 class Almacenmercancia(models.Model):
     almacen = models.ForeignKey(Almacen, on_delete=models.CASCADE)
     mercancia = models.ForeignKey(Mercancia, on_delete=models.CASCADE)
-    cantidad = models.DecimalField(max_digits=18,decimal_places=6)
+    cantidad = models.DecimalField(max_digits=18,decimal_places=6)    
 
 class Recepcion(models.Model):
     almacen = models.ForeignKey(Almacen, on_delete=models.CASCADE)
@@ -50,18 +47,18 @@ class Recepcion(models.Model):
     pautoriza = models.CharField(max_length=250,default="")
     contrato = models.CharField(max_length=50,default="")
     factura = models.CharField(max_length=50,default="")
-    conduce = models.CharField(max_length=50,default="")
-    scompra = models.CharField(max_length=50,default="")
-    manifiesto = models.CharField(max_length=50,default="")
-    partida = models.CharField(max_length=50,default="")
-    conocimiento = models.CharField(max_length=50,default="")
-    expedicion = models.CharField(max_length=50,default="")
-    casilla = models.CharField(max_length=50,default="")
-    bultos = models.CharField(max_length=50,default="")
-    tbultos = models.CharField(max_length=50,default="")
-    transportista = models.CharField(max_length=250,default="")
-    tci = models.CharField(max_length=11,default="")
-    tchapa = models.CharField(max_length=50,default="")
+    # conduce = models.CharField(max_length=50,default="")
+    # scompra = models.CharField(max_length=50,default="")
+    # manifiesto = models.CharField(max_length=50,default="")
+    # partida = models.CharField(max_length=50,default="")
+    # conocimiento = models.CharField(max_length=50,default="")
+    # expedicion = models.CharField(max_length=50,default="")
+    # casilla = models.CharField(max_length=50,default="")
+    # bultos = models.CharField(max_length=50,default="")
+    # tbultos = models.CharField(max_length=50,default="")
+    # transportista = models.CharField(max_length=250,default="")
+    # tci = models.CharField(max_length=11,default="")
+    # tchapa = models.CharField(max_length=50,default="")
     proveedor = models.CharField(max_length=250,default="")
     fecha = models.DateField()
     activo = models.IntegerField(default=0)

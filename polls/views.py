@@ -17,13 +17,13 @@ def home(request):
         }
     )
 
-def contact(request):
-    """Renders the home page."""
-    assert isinstance(request, HttpRequest)
-    return render(
-        request,
-        'polls/contact.html',
-        {
-            'title':'contact Page',
-        }
-    )
+# def contact(request):
+#     """Renders the home page."""
+#     assert isinstance(request, HttpRequest)
+#     return render(
+#         request,
+#         'polls/contact.html',
+#         {
+#             'title':'contact Page',
+#         }
+#     )
