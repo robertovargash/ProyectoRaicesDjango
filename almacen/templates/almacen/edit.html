@@ -143,7 +143,15 @@
                   {% for recep in recepciones%}
                   <tr>
                     <td>{{recep.numero}}</td>
-                    <td>{{recep.activo}}</td>
+                    <td>
+                      {% if recep.activo == 0%}
+                      <b>Proceso</b>
+                      {% elif recep.activo == 1 %}
+                      <b class="text-success">Firmado</b>
+                      {% else %}
+                      <b class="text-danger">Cancelado</b>
+                      {%endif%}
+                    </td>
                     <td>{{recep.precibe}}</td>
                     <td>{{recep.pentrega}}</td>
                     <td>{{recep.fecha}}</td>
@@ -152,9 +160,9 @@
                       <div class="d-inline">
                           <a href="" class="btn btn-link text-info">Detalles</a>
                           <a href="" class="btn btn-link text-info ">PDF</a>
-                              <a href="" class="btn btn-link text-primary">Editar</a>
-                              <a class="btn btn-link deleteRecepcion text-danger">Cancelar</a>
-                              <a class="btn btn-link firmarRecepcion text-success">Firmar</a>
+                              <a href="{% url 'editar_recepcion' recep.id %}" class="btn btn-link text-primary">Editar</a>
+                              <a href="{% url 'cancelar_recepcion' recep.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#cancelRecepcionModal" onclick="cancel_recepcion(this,'{{recep.numero}}')">Cancelar</a>
+                              <a href="{% url 'firmar_recepcion' recep.id %}" class="btn btn-link text-success" data-toggle="modal" data-target="#firmarRecepcionModal" onclick="firmar_recepcion(this,'{{recep.numero}}')">Firmar</a>
                       </div>
                 </td>
                   </tr>
@@ -217,7 +225,7 @@
                         <a href="" class="btn btn-link text-info ">Detalles</a>
                         <a href="" class="btn btn-link text-info ">PDF</a>
                             <a href="" class="btn btn-link text-primary ">Editar</a>
-                            <a class="btn btn-link deleteVale text-danger ">Cancelar</a>
+                            <a href="" class="btn btn-link deleteVale text-danger" data-recepcion_id="{{recepcion.id}}" data-recepcion_no="{{recepcion.numero}}">Cancelar</a>
 
                             <a class="btn btn-link firmarVale text-success ">Firmar</a>
                     </td>
@@ -243,18 +251,49 @@
     </div>
   </div>
 </div>
-
+{% include 'almacen/modals/cancel_recepcion.html' %}
+{% include 'almacen/modals/firmar_recepcion.html' %}
 {% include 'almacen/modals/add_recepcion_modal.html' %}
 {% endblock %}
 {% block script %}
 <script type="text/javascript">
+  function cancel_recepcion(selected_item, numero){
+        document.getElementById("modal-cancelrecepcion-body").innerHTML ="Desea cancelar el documento "+ numero +"?";
+        document.getElementById("cancel_recepcion_form").action = selected_item.href;        
+  } 
+  function firmar_recepcion(selected_item, numero){
+        document.getElementById("modal-firmarrecepcion-body").innerHTML ="Desea firmar el documento "+ numero +"?";
+        document.getElementById("firmar_recepcion_form").action = selected_item.href;        
+  } 
    $(document).on('click','.AddRecepcion',function(){
   $('#btnInserRecepcion').attr('disabled', false);
   $('#btnInserRecepcion').html('Insertar');
   $('#modalAddRecepcion').modal('show');
 });
+// $(document).on('click','.deleteRecepcion',function(){
+//     var id=$(this).attr('data-recepcion_id');
+//     $('#recepcion_id').val(id);
+//     $('#modal-deleterecepcion-body').text('¿Desea cancelar la recepción '+ $(this).attr('data-recepcion_no') + '?');
+//     $('#deleteRecepcionModal').modal('show');
+// });
+
+$(function () {
+    $('#tablaRecepciones').DataTable({
+        "order": [[0, "desc"]],
+      "responsive": true,
+      "autoWidth": false
+    });
+  });
+
   $(function () {
-    $('#tablaAlmacenes').DataTable({
+    $('#tablaVales').DataTable({
+        "order": [[0, "desc"]],
+      "responsive": true,
+      "autoWidth": false
+    });
+  });
+  $(function () {
+    $('#tablaExistencia').DataTable({
       "responsive": true,
       "autoWidth": false,
     });

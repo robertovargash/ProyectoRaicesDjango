@@ -11,12 +11,13 @@ from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.views.generic import ListView, CreateView,DeleteView,UpdateView,TemplateView, FormView
 # from django.http import JsonResponse
 from django.utils.decorators import method_decorator
-from almacen.forms import AddRecepcionForm, AlmacenesForm, ClasificacionesForm, MercanciasForm, RecepcionForm
+from almacen.forms import AddRecepcionForm, AlmacenesForm, ClasificacionesForm, EditRecepcionForm, MercanciasForm, RecepcionForm
 from django.urls import reverse_lazy,reverse
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import ModelFormMixin
 from django.shortcuts import get_object_or_404,redirect
 from django.contrib import messages
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -64,7 +65,7 @@ class AlmacenesUpdateView(SuccessMessageMixin, UpdateView):
         almacenmercancias = Almacenmercancia.objects.filter(almacen=self.object)
         recepciones = Recepcion.objects.filter(almacen=self.object)
         context['almacenmercancias'] = almacenmercancias
-        context['formRecepcion'] = AddRecepcionForm
+        context['formRecepcion'] = RecepcionForm
         context['recepciones'] = recepciones
         context['almacen'] = self.object
         return context
@@ -184,31 +185,69 @@ class RecepcionCreateView(SuccessMessageMixin, CreateView):
     model = Recepcion
     form_class = RecepcionForm
     # path('almacenes/<int:pk>/update/', AlmacenesUpdateView.as_view(), name='editar_almacen'),
-    success_url = reverse_lazy('almacenes')
+    # success_url = reverse_lazy('almacenes')
     success_message = "Insertado correctamente!!!!"
     def form_valid(self, form):
+        count = Recepcion.objects.all().count()
         self.object = form.save(commit=False)
-        self.object.numero = self.request.numero
-        self.object.fecha = datetime.now()
-        self.object.activo = 1
-        self.object.almacen = self.request.almacen_id
+        self.object.fecha = datetime.now()        
+        self.object.activo = 0
+        self.object.almacen_id = self.request.POST['almacenid']
+        self.object.numero = count+1
+        self.object.save()         
+        print(self.request)
+        return redirect('editar_recepcion', pk=self.object.id)
+
+class RecepcionUpdateView(SuccessMessageMixin, UpdateView):
+    model = Recepcion
+    form_class = RecepcionForm
+    template_name = 'recepcion/edit.html'
+    # success_url = reverse_lazy('almacenes')
+    success_message = "Actualizado correctamente!!!!"
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        # self.object.numero = 0
+        # self.object.fecha = datetime.now()
+        # self.object.activo = 1
+        # self.object.almacen_id = 42
         self.object.save() 
-        # self.fields['numero'].numero = 0
-        # self.fields['fecha'] = datetime.now()
-        # self.fields['activo'] = 1
-        # self.fields['almacen_id'] = 42
-        # self.object = form.save()
-        return super().form_valid(form)
+        return redirect('editar_almacen', pk=self.object.almacen_id)
+    
+    # def form_valid(self, form):
+    #     self.object = form.save(commit=False)
+    #     self.object.numero = 0
+    #     self.object.fecha = datetime.now()
+    #     self.object.activo = 1
+    #     self.object.almacen = self.request.almacen_id
+    #     self.object.save() 
+    #     self.fields['numero'].numero = 0
+    #     self.fields['fecha'] = datetime.now()
+    #     self.fields['activo'] = 1
+    #     self.fields['almacen_id'] = 42
+    #     self.object = form.save()
+    #     return super().form_valid(form)
     # def form_valid(self, form):
     #     self.object = form.save()
-        # almacenes = Almacen.objects.all()
-        # for almacen in almacenes:
-        #     almacenmercancia = Almacenmercancia()
-        #     almacenmercancia.almacen = almacen
-        #     almacenmercancia.mercancia = self.object
-        #     almacenmercancia.cantidad = 0            
-        #     almacenmercancia.save()
-        # return super().form_valid(form)
+    #     almacenes = Almacen.objects.all()
+    #     for almacen in almacenes:
+    #         almacenmercancia = Almacenmercancia()
+    #         almacenmercancia.almacen = almacen
+    #         almacenmercancia.mercancia = self.object
+    #         almacenmercancia.cantidad = 0            
+    #         almacenmercancia.save()
+    #     return super().form_valid(form)
+
+def cancelar_recepcion(request, pk):
+    recepcion = Recepcion.objects.get(pk=pk)
+    recepcion.activo = 2
+    recepcion.save()
+    return redirect(reverse('editar_almacen', kwargs={"pk": recepcion.almacen_id}))
+
+def firmar_recepcion(request, pk):
+    recepcion = Recepcion.objects.get(pk=pk)
+    recepcion.activo = 1
+    recepcion.save()
+    return redirect(reverse('editar_almacen', kwargs={"pk": recepcion.almacen_id}))
 
 def add_recepcion_view(request):
     print("add recepcion")
@@ -236,7 +275,7 @@ def add_recepcion_view(request):
             activo = 1
         )
         messages.success(request, 'Profile details updated.')
-        return redirect(reverse('editar_almacen', kwargs={"pk": almacen_id}))
+        return redirect(reverse('editar_recepcion', kwargs={"pk": recepcion.id}))
         # return redirect(resolve_url(to, *args, **kwargs)reverse_lazy('editar_almacen',42))
         # form = AddRecepcionForm(request.POST, request.FILES)
         # if form.is_valid:
@@ -245,11 +284,28 @@ def add_recepcion_view(request):
         #     except:
         #         messages(request,"Error al add recepcion")
         #         return redirect('almacenes')
-    return redirect('editar_almacen', kwargs={'pk': 42})
+    return redirect(reverse('editar_recepcion', kwargs={"pk": recepcion.id}))
 
-def edit_recepcion_view(request):
-    
-    return redirect('almacenes')
+def edit_recepcion_view(request, pk):
+    recepcion =Recepcion.objects.get(pk=pk)
+    edit_form = EditRecepcionForm()
+    print(recepcion)
+    # return redirect('almacenes')
+    return render(request,"recepcion/edit.html",{'recepcion':recepcion,'almacenid':recepcion.almacen_id,'edit_form':edit_form})
+
+def edit_recepcion(request):
+    recepcion = Recepcion.objects.get(pk=request.POST['id'])
+    recepcion.observaciones = request.POST['observaciones']
+    recepcion.precibe = request.POST['precibe']
+    recepcion.pentrega = request.POST['pentrega']
+    recepcion.pautoriza = request.POST['pautoriza']
+    recepcion.contrato = request.POST['contrato']
+    recepcion.factura = request.POST['factura']
+    recepcion.proveedor = request.POST['proveedor']
+    recepcion.save()
+    return redirect(reverse('editar_almacen', kwargs={"pk": recepcion.almacen_id}))
+    # return render(request,"recepcion/edit.html",{"recepcion":recepcion,"edit_form":edit_form})
+
 
 def delete_recepcion_view(request):
     

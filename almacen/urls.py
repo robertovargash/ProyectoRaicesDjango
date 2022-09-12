@@ -22,10 +22,13 @@ urlpatterns = [
     path('mercancias/<int:pk>/update/', MercanciasUpdateView.as_view(), name='editar_mercancias'),
 
 
-    # path('recepcion/nuevo/', RecepcionCreateView.as_view(), name='crear_recepcion'),
-    path('recepcion/nuevo/', add_recepcion_view, name='crear_recepcion'),
-    path('recepcion/<int:pk>/update/', edit_recepcion_view, name='editar_recepcion'),
-    path('recepcion/<int:pk>/delete/', delete_recepcion_view, name='eliminar_recepcion'),
+    path('recepcion/nuevo/', RecepcionCreateView.as_view(), name='crear_recepcion'),
+    # path('recepcion/nuevo/', add_recepcion_view, name='crear_recepcion'),
+    # path('recepcion/<int:pk>/update/', edit_recepcion_view, name='editar_recepcion'),
+    # path('editarecepcion', edit_recepcion,name='editar_recepcionpost'),
+    # path('recepcion/<int:pk>/delete/', delete_recepcion_view, name='eliminar_recepcion'),
     # path('recepcion/<int:pk>/delete/', RecepcionDeleteView.as_view(), name='eliminar_recepcion'),
-    # path('recepcion/<int:pk>/update/', RecepcionUpdateView.as_view(), name='editar_recepcion'),
+    path('recepcion/<int:pk>/update/', RecepcionUpdateView.as_view(), name='editar_recepcion'),
+    path('recepcion/<int:pk>/cancelar/', cancelar_recepcion,name='cancelar_recepcion'),
+    path('recepcion/<int:pk>/firmar/', firmar_recepcion,name='firmar_recepcion'),
 ]

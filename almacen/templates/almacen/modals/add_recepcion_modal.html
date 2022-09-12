@@ -11,8 +11,8 @@
           <form id="addrecepcion" action="{% url 'crear_recepcion' %}" method="POST">
             {% csrf_token %}
                <div class="row">
-                <input type="hidden" name="almacen_id" value="{{ almacen.id }}" class="form-control">
-                <input type="hidden" name="numero" value="0" class="form-control" placeholder="Número">
+                <input type="hidden" name="almacenid" value="{{ almacen.id }}" class="form-control">
+               <input type="hidden" name="numero" value="0" class="form-control" placeholder="Número">
                   {% for field in formRecepcion.visible_fields %}
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">

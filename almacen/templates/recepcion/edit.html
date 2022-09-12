@@ -1,0 +1,139 @@
+{% extends "starter.html" %}
+{% block content %}
+<div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <div class="col-lg-12 margin-tb">
+              <div class="pull-left">
+                <h2>Datos recepción No. {{ recepcion.numero }}</h2>
+              </div>
+              <div class="pull-right">
+                  <a class="btn btn-primary" href="{% url 'editar_almacen' recepcion.almacen_id %}"> Atrás</a>
+              </div>
+            </div>
+          </div>          
+        </div>
+      </div><!-- /.container-fluid -->
+    </div>
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-default">
+              <div class="card-header">
+                <h3 class="card-title">Datos recepción No. {{ recepcion.numero }}</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12">
+                    <form id="edit" action="" method="POST">
+                        {% csrf_token %}        
+                         <div class="row">
+                            <input type="hidden" name="id" value="{{recepcion.id}}" class="form-control">
+                            {% for field in form.visible_fields %}
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <strong>{{ field.label }}</strong>
+                                    {{ field }}
+                                </div>
+                            </div>
+                            {%endfor%}
+                            <!-- {{form}} -->
+                            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                              <button type="submit" class="btn btn-primary">Actualizar</button>
+                            </div>
+                        </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-info" id="cardMercancias">
+              <div class="card-header">
+                <h3 class="card-title">Mercancías recepcionadas</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                </div>
+              </div>
+              <div class="card-body">
+                  <div class="pull-left mb-2">
+                          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalAddRecepcionproducto">Adicionar</button>
+                  </div>
+                <table id="tablaRecepcionmercancia" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>Código</th>
+                      <th>Mercancía</th>
+                      <th>UM</th>
+                      <th>Cantidad</th>
+                      <th>Precio compra</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                    
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>Código</th>
+                      <th>Mercancía</th>
+                      <th>UM</th>
+                      <th>Cantidad</th>
+                      <th>Precio compra</th>
+                      <th></th>
+                    </tr>
+                  </tfoot>
+              </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+{% endblock %}
+{% block script %}
+<script>
+//   $(document).ready(function () {
+//     $('#addclasificacion').validate({
+//       rules: {
+//         clasificacion: {
+//           required: true,
+//         },
+//       },
+//       messages: {
+//         clasificacion: {
+//           required: "Inserte el nombre de clasificación",
+//         },
+//       },
+//       errorElement: 'span',
+//       errorPlacement: function (error, element) {
+//         error.addClass('invalid-feedback');
+//         element.closest('.form-group').append(error);
+//       },
+//       highlight: function (element, errorClass, validClass) {
+//         $(element).addClass('is-invalid');
+//       },
+//       unhighlight: function (element, errorClass, validClass) {
+//         $(element).removeClass('is-invalid');
+//       }
+//     });    
+//   });
+$(function () {
+    $('#tablaRecepcionmercancia').DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+{% endblock %}

@@ -139,13 +139,70 @@ class AddRecepcionForm(ModelForm):
             ),
         }
 
+class EditRecepcionForm(ModelForm):
+    class Meta:
+        model = Recepcion
+        fields = ['fecha','proveedor', 'contrato','factura','precibe','pentrega','pautoriza','observaciones']
+        exclude = ['almacen','numero','activo']
+        labels = {'fecha': 'Fecha','proveedor': 'Proveedor','contrato': 'Contrato','factura':'Factura','precibe': 'Recibe','pentrega': 'Entrega','pautoriza': 'Autoriza','observaciones': 'Observaciones'}
+        widgets = {
+            'fecha' : TextInput(
+                attrs={
+                    'readonly':'readonly',
+                    'class':'form-control',
+                }
+            ),
+            'proveedor': TextInput(
+                attrs={
+                    'class':'form-control',
+                    'placeholder':'Proveedor'
+                }
+            ),
+            'contrato': TextInput(
+                attrs={
+                    'class':'form-control',
+                    'placeholder':'Contrato'
+                }
+            ),
+            'factura': TextInput(
+                attrs={
+                    'class':'form-control',
+                    'placeholder':'Factura'
+                }
+            ),
+            'precibe': TextInput(
+                attrs={
+                    'class':'form-control',
+                    'placeholder':'Recibe'
+                }
+            ),
+             'pentrega': TextInput(
+                attrs={
+                    'class':'form-control',
+                    'placeholder':'Entrega'
+                }
+            ),
+             'pautoriza': TextInput(
+                attrs={
+                    'class':'form-control',
+                    'placeholder':'Autoriza'
+                }
+            ),
+            'observaciones': Textarea(
+                attrs={
+                    'style':'height:150px',
+                    'class':'form-control',
+                    'placeholder':'Observaciones'
+                }
+            ),
+        }
+
 
 class RecepcionForm(ModelForm):
     class Meta:
         model = Recepcion
         # fields='__all__'
         fields = ['proveedor', 'contrato','factura','precibe','pentrega','pautoriza','observaciones']
-        exclude = ['almacen','numero']
         labels = {            
             'proveedor': 'Proveedor',
             'contrato': 'Contrato',
@@ -155,13 +212,7 @@ class RecepcionForm(ModelForm):
             'pautoriza': 'Autoriza',
             'observaciones': 'Observaciones'
         }
-        widgets = {
-            # 'almacen': HiddenInput(),
-            # 'numero': HiddenInput(
-            #     attrs={
-            #         'value':'0',
-            #     }
-            # ),
+        widgets = {   
             'proveedor': TextInput(
                 attrs={
                     'class':'form-control',
