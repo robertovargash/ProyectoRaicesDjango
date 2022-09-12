@@ -1,19 +1,20 @@
-<div class="modal fade" id="modalAddRecepcion">
+
+<div class="modal fade" id="modalAddRecepcionproducto">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Recepción de mercancía</h4>
+          <h4 class="modal-title">Mercancía de recepción</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <form id="addrecepcion" action="{% url 'crear_recepcion' %}" method="POST">
-            {% csrf_token %}
-               <div class="row">
-                <input type="hidden" name="almacenid" value="{{ almacen.id }}" class="form-control">
-                <input type="hidden" name="numero" value="0" class="form-control" placeholder="Número">
-                  {% for field in formRecepcion.visible_fields %}
+          <div class="row">
+            <form id="recepcionMercanciaData" action="{% url 'crear_recepcion_mercancia' %}" method="POST">
+              {% csrf_token %}
+              <div class="row">
+                <input type="hidden" name="recepcion_id" value="{{ recepcion.id }}" class="form-control">
+                  {% for field in formAddRecepcion.visible_fields %}
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>{{ field.label }}</strong>
@@ -25,7 +26,8 @@
                           <button type="submit" class="btn btn-primary">Insertar</button>
                   </div>
               </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
       <!-- /.modal-content -->

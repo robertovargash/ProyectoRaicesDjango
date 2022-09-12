@@ -66,7 +66,7 @@
               </div>
               <div class="card-body">
                   <div class="pull-left mb-2">
-                          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalAddRecepcionproducto">Adicionar</button>
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalAddRecepcionproducto">Adicionar</button>
                   </div>
                 <table id="tablaRecepcionmercancia" class="table table-bordered table-striped">
                   <thead>
@@ -79,9 +79,21 @@
                       <th></th>
                     </tr>
                   </thead>
-                  <tbody>
-                    
-                    
+                  <tbody>                  
+                    {% for merc in recepcionmercancias%}
+                  <tr>
+                    <td>{{ merc.mercancia.codigo }}</td>
+                    <td>{{ merc.mercancia.nombremercancia }}</td>
+                    <td>{{ merc.mercancia.um }}</td>
+                    <td>{{ merc.cantidad }}</td>
+                    <td>{{ merc.precio}} </td>
+                    <td>
+                            <a class="btn btn-link editRecepcionProducto text-primary" data-id="{{merc.id}}" data-mercancia="{{merc.mercancia.nombremercancia}}" data-cantidad="{{merc.cantidad}}" data-precio="{{merc.precio}}">Editar</a>
+                            <!-- <a class="btn btn-link deleteRecepcionProducto text-danger" data-id="{{merc.id}}">Eliminar</a> -->
+                            <a href="{% url 'eliminar_recepcionmercancia' merc.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#deleteRecepcionMercanciaModal" onclick="delete_item(this,'{{merc.mercancia.nombremercancia}}')">Eliminar</a>
+                    </td>
+                  </tr>
+                  {%endfor%}
                   </tbody>
                   <tfoot>
                     <tr>
@@ -101,34 +113,134 @@
       </div>
     </div>
   </div> 
+  {% include 'recepcion/modals/delete_mercancia.html' %}
+  {% include 'recepcion/modals/add_mercancia.html' %}
 {% endblock %}
 {% block script %}
 <script>
-//   $(document).ready(function () {
-//     $('#addclasificacion').validate({
-//       rules: {
-//         clasificacion: {
-//           required: true,
-//         },
-//       },
-//       messages: {
-//         clasificacion: {
-//           required: "Inserte el nombre de clasificación",
-//         },
-//       },
-//       errorElement: 'span',
-//       errorPlacement: function (error, element) {
-//         error.addClass('invalid-feedback');
-//         element.closest('.form-group').append(error);
-//       },
-//       highlight: function (element, errorClass, validClass) {
-//         $(element).addClass('is-invalid');
-//       },
-//       unhighlight: function (element, errorClass, validClass) {
-//         $(element).removeClass('is-invalid');
-//       }
-//     });    
-//   });
+    function delete_item(selected_item, nombre){
+        document.getElementById("modal_deleterecepcionmercancia_body").innerHTML ="Desea eliminar la mercancia con nombre "+ nombre +"?";
+        document.getElementById("delete_recepcionmercancia_form").action = selected_item.href;        
+  } 
+$(document).ready(function () {
+    $('#btnInsertar').click(function () {
+            $('#btnInsertar').attr('disabled', true);
+            $('#btnInsertar').html('Insertando...');
+            $('#recepcionMercanciaData').submit();
+            return true;
+        });
+    function elmenor(){
+      return 0;
+    };
+    $('#recepcionData').validate({
+      rules: {
+        contrato: {
+          required: true,
+          maxlength: 50,
+        },
+        factura: {
+          required: true,
+          maxlength: 50,
+        },
+        proveedor: {
+          required: true,
+          maxlength: 250,
+        },
+        p_recibe: {
+          required: true,
+          maxlength: 250,
+        },
+        p_entrega: {
+          required: true,
+          maxlength: 250,
+        },
+        fecha: {
+          required: true,
+        },
+        observaciones: {
+          required: true,
+        },
+      },
+      messages: {
+        contrato: {
+          required: "Debe insertar el numero de contrato como referencia",
+          maxlength: "Máximo 50 caracteres",
+        },
+        factura: {
+          required: "Debe insertar el numero de factura como referencia",
+          maxlength: "Máximo 50 caracteres",
+        },
+        proveedor: {
+          required: "Debe insertar el proveedor como referencia",
+          maxlength: "Máximo 250 caracteres",
+        },
+        p_recibe: {
+          required: "Debe insertar la persona que recibe",
+          maxlength: "Máximo 250 caracteres",
+        },
+        p_entrega: {
+          required: "Debe insertar la persona que entrega",
+          maxlength: "Máximo 250 caracteres",
+        },
+        fecha: {
+          required: "Seleccione una fecha",
+        },
+        observaciones: {
+          required: "Escriba un comentario",
+        },
+      },
+      errorElement: 'span',
+      errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+      },
+      highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+      },
+      unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+      }
+    });
+    $('#recepcionMercanciaData').validate({
+      rules: {
+        mercancia_id: {
+          required: true,
+        },
+        cantidad: {
+          required: true,
+          min:elmenor,
+        },
+        precio: {
+          required: true,
+          min:elmenor,
+        },
+      },
+      messages: {
+        mercancia_id: {
+          required: "Escoja una mercancía",
+        },
+        cantidad: {
+          required: "Debe insertar la cantidad de la mercancía",
+          min: "El valor debe ser mayor o igual a 0",
+        },
+        precio: {
+          required: "Debe insertar el precio de la mercancía",
+          min: "El valor debe ser mayor o igual a 0",
+        }
+      },
+      errorElement: 'span',
+      errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+      },
+      highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+      },
+      unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+      }
+    });
+  });
 $(function () {
     $('#tablaRecepcionmercancia').DataTable({
       "responsive": true,

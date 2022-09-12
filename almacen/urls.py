@@ -31,4 +31,7 @@ urlpatterns = [
     path('recepcion/<int:pk>/update/', RecepcionUpdateView.as_view(), name='editar_recepcion'),
     path('recepcion/<int:pk>/cancelar/', cancelar_recepcion,name='cancelar_recepcion'),
     path('recepcion/<int:pk>/firmar/', firmar_recepcion,name='firmar_recepcion'),
+
+    path('recepcionmercancia/nuevo/', RecepcionmercanciaCreateView.as_view(), name='crear_recepcion_mercancia'),
+    path('recepcionmercancia/<int:pk>/delete/', RecepcionmercanciaDeleteView.as_view(), name='eliminar_recepcionmercancia'),
 ]

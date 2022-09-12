@@ -1,9 +1,10 @@
 from cProfile import label
+from dataclasses import field
 from distutils.text_file import TextFile
 from pyexpat import model
 from turtle import textinput
 from django.forms import *
-from almacen.models import Almacen,Clasificaciones, Mercancia, Recepcion
+from almacen.models import Almacen,Clasificaciones, Mercancia, Recepcion, Recepcionmercancias
 
 class AlmacenesForm(ModelForm):
     class Meta:
@@ -72,20 +73,6 @@ class MercanciasForm(ModelForm):
         model = Mercancia
         # fields='__all__'
         fields = ['codigo', 'nombremercancia','um','clasificacion','descripcion']
-        # labels = {
-        #     'codigo': 'Código',
-        #     'nombremercancia': 'Nombre',
-        #     'clasificacion':'Clasificación',
-        #     'um': 'UM',
-        #     'descripcion': 'Descripción'
-        # }
-        # widgets = {
-        #     'codigo': TextInput( attrs={ 'class':'form-control', 'placeholder':'Código' }),
-        #     'nombremercancia': TextInput(attrs={ 'class':'form-control', 'placeholder':'Nombre'}),
-        #     'um': TextInput(attrs={ 'class':'form-control', 'placeholder':'UM' }),
-        #     'clasificacion' : Select(attrs={'style':'width: 100%', 'class':'form-control select2bs4'}),
-        #     'descripcion': Textarea( attrs={ 'style':'height:150px', 'class':'form-control', 'placeholder':'Descripción' } ),
-        # }
 
 class AddRecepcionForm(ModelForm):
     class Meta:
@@ -257,3 +244,16 @@ class RecepcionForm(ModelForm):
                 }
             ),
         }
+
+class RecepcionmercanciaForm(ModelForm):
+    
+    mercancia = ModelChoiceField(
+                                            label='Mercancia',
+                                            queryset=Mercancia.objects.all(), empty_label='Seleccione: ', 
+                                            widget=Select(attrs={'style':'width: 100%', 'class':'form-control select2bs4'}))
+    cantidad = CharField(label='Cantidad',widget=NumberInput(attrs={'class':'form-control','placeholder':'Cantidad'}))
+    precio = CharField(label='Precio',widget=NumberInput(attrs={'class':'form-control', 'placeholder':'Precio'}))
+    class Meta:
+        model = Recepcionmercancias
+        # fields = '__all__'
+        fields = ['mercancia','cantidad','precio']
