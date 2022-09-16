@@ -236,6 +236,8 @@ class RecepcionmercanciaDeleteView(SuccessMessageMixin, DeleteView):
     def get_success_url(self):
         recepcion_id = self.object.recepcion_id 
         return reverse( 'editar_recepcion', kwargs={'pk': recepcion_id})
+
+        
     # def delete(self, *args, **kwargs):
     #     # self.object = self.get_object()
     #     # recep = Recepcion.objects.get(pk=self.object.recepcion_id)
