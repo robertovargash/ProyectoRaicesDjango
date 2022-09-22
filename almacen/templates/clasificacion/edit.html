@@ -1,4 +1,5 @@
 {% extends "starter.html" %}
+{% load i18n %}
 {% block content %}
 <div class="content-wrapper">
     <div class="content-header">
@@ -7,10 +8,10 @@
             <div class="col-sm-6">
               <div class="col-lg-12 margin-tb">
                 <div class="pull-left">
-                  <h2>Editando clasificación</h2>
+                  <h2>{% translate "TitleEditClasification"%}</h2>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-primary" href="{% url 'clasificaciones' %}"> Atrás</a>
+                    <a class="btn btn-primary" href="{% url 'clasificaciones' %}"> {% translate "BtnBack"%}</a>
                 </div>
               </div>              
             </div>           
@@ -33,21 +34,8 @@
                         </div>
                     </div>
                     {%endfor%}
-                    <!-- {{form}} -->
-                    <!-- <div class="col-xs-12 col-sm-12 col-md-12">
-                        <div class="form-group">
-                            <strong>Nombre clasificación:</strong>
-                            <input type="text" name="clasificacion" value="{{ clasificacion.clasificacion }}" class="form-control" placeholder="Clasificación">
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12">
-                        <div class="form-group">
-                            <strong>Detalle de la clasificación:</strong>
-                            <textarea class="form-control" style="height:150px" name="detalle" placeholder="Detalle">{{ clasificacion.detalles }}</textarea>
-                        </div>
-                    </div> -->
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                      <button type="submit" class="btn btn-primary">Actualizar</button>
+                      <button type="submit" class="btn btn-primary btn-block">{% translate "BtnUpdate"%}</button>
                     </div>
                 </div>
             </form>

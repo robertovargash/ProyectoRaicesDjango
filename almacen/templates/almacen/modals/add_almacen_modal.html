@@ -1,9 +1,10 @@
+{% load i18n %}
 <div class="modal fade" id="modalAddAlmacen">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Adicionar almacén</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+          <h4 class="modal-title">{% translate "ModalTitleAddStore"%}</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -12,20 +13,16 @@
             <form action="{% url 'crear_almacen' %}" id="almacenData" method="POST">
               {% csrf_token %}
                  <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <strong>Almacén:</strong>
-                            <input type="text" name="almacen" class="form-control" placeholder="Almacén">
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            <strong>Descripción:</strong>
-                            <textarea class="form-control" style="height:150px" name="descripcion" placeholder="Descripción"></textarea>
-                        </div>
-                    </div>
+                  {% for field in form.visible_fields %}
+                  <div class="col-xs-12 col-sm-12 col-md-12">
+                      <div class="form-group">
+                          <strong>{{ field.label }}</strong>
+                          {{ field }}
+                      </div>
+                  </div>
+                {%endfor%}
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                          <button type="submit" id="btnInsertar" class="btn btn-success btn-block">Insertar</button>
+                          <button type="submit" id="btnInsertar" class="btn btn-success btn-block">{% translate "BtnInsert"%}</button>
                     </div>
                 </div>
             </form>

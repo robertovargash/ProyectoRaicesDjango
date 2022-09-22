@@ -5,27 +5,28 @@ from pyexpat import model
 from turtle import textinput
 from django.forms import *
 from almacen.models import Almacen,Clasificaciones, Mercancia, Recepcion, Recepcionmercancias
+from django.utils.translation import gettext_lazy as _
 
 class AlmacenesForm(ModelForm):
     class Meta:
         model = Almacen
         fields = ['almacen', 'descripcion']
         labels = {
-            'almacen': 'Almacén',
-            'descripcion': 'Descripción'
+            'almacen': _('Store_Name'),
+            'descripcion': _('Store_Details')
         }
         widgets = {
             'almacen': TextInput(
                 attrs={
                     'class':'form-control',
-                    'placeholder':'Almacén'
+                    'placeholder':_('Store_Name')
                 }
             ),
             'descripcion': Textarea(
                 attrs={
                     'style':'height:150px',
                     'class':'form-control',
-                    'placeholder':'Descripción'
+                    'placeholder':_('Store_Details')
                 }
             ),
         }
@@ -36,21 +37,21 @@ class ClasificacionesForm(ModelForm):
         # fields = '__all__'
         fields = ['clasificacion', 'detalles']
         labels = {
-            'clasificacion': 'Clasificación',
-            'detalles': 'Detalles'
+            'clasificacion': _('Clasification_Name'),
+            'detalles':  _('Clasification_Details')
         }
         widgets = {
             'clasificacion': TextInput(
                 attrs={
                     'class':'form-control',
-                    'placeholder':'Clasificación'
+                    'placeholder':_('Clasification_Name')
                 }
             ),
             'detalles': Textarea(
                 attrs={
                     'style':'height:150px',
                     'class':'form-control',
-                    'placeholder':'Detalles'
+                    'placeholder':_('Clasification_Details')
                 }
             ),
         }
@@ -61,199 +62,94 @@ class ClasificacionesModelChoiceField(ModelChoiceField):
         return (obj.clasificacion)
 
 class MercanciasForm(ModelForm):
-    codigo = CharField(label='Code',widget=TextInput(attrs={'class':'form-control','placeholder':'Código'}))
-    nombremercancia = CharField(label='Nombre',widget=TextInput(attrs={'class':'form-control', 'placeholder':'Nombre'}))
-    um = CharField(label='UM',widget=TextInput(attrs={'class':'form-control', 'placeholder':'UM'}))
+    codigo = CharField(label=_('Product_Code'),widget=TextInput(attrs={'class':'form-control','placeholder':_('Product_Code')}))
+    nombremercancia = CharField(label=_('Product_Name'),widget=TextInput(attrs={'class':'form-control', 'placeholder':_('Product_Name')}))
+    um = CharField(label=_('Product_UM'),widget=TextInput(attrs={'class':'form-control', 'placeholder':_('Product_UM')}))
     clasificacion = ClasificacionesModelChoiceField(
-                                            label='Clasificación',
-                                            queryset=Clasificaciones.objects.all(), empty_label='Seleccione: ', 
+                                            label=_('Product_Clasification'),
+                                            queryset=Clasificaciones.objects.all(), empty_label=_('Product_SelectClasificationLabel'), 
                                             widget=Select(attrs={'style':'width: 100%', 'class':'form-control select2bs4'}))
-    descripcion = CharField(label='Descripción',widget=Textarea(attrs={'style':'height:150px', 'class':'form-control', 'placeholder':'Descripción'}))
+    descripcion = CharField(label=_('Product_Details'),widget=Textarea(attrs={'style':'height:150px', 'class':'form-control', 'placeholder':_('Product_Details')}))
     class Meta:
         model = Mercancia
         # fields='__all__'
         fields = ['codigo', 'nombremercancia','um','clasificacion','descripcion']
-
-class AddRecepcionForm(ModelForm):
-    class Meta:
-        model = Recepcion
-        fields = ['proveedor', 'contrato','factura','precibe','pentrega','pautoriza','observaciones']
-        exclude = ['almacen','numero']
-        labels = {'proveedor': 'Proveedor','contrato': 'Contrato','factura':'Factura','precibe': 'Recibe','pentrega': 'Entrega','pautoriza': 'Autoriza','observaciones': 'Observaciones'}
-        widgets = {
-            'proveedor': TextInput(
-                attrs={
-                    'class':'form-control',
-                    'placeholder':'Proveedor'
-                }
-            ),
-            'contrato': TextInput(
-                attrs={
-                    'class':'form-control',
-                    'placeholder':'Contrato'
-                }
-            ),
-            'factura': TextInput(
-                attrs={
-                    'class':'form-control',
-                    'placeholder':'Factura'
-                }
-            ),
-            'precibe': TextInput(
-                attrs={
-                    'class':'form-control',
-                    'placeholder':'Recibe'
-                }
-            ),
-             'pentrega': TextInput(
-                attrs={
-                    'class':'form-control',
-                    'placeholder':'Entrega'
-                }
-            ),
-             'pautoriza': TextInput(
-                attrs={
-                    'class':'form-control',
-                    'placeholder':'Autoriza'
-                }
-            ),
-            'observaciones': Textarea(
-                attrs={
-                    'style':'height:150px',
-                    'class':'form-control',
-                    'placeholder':'Observaciones'
-                }
-            ),
-        }
-
-class EditRecepcionForm(ModelForm):
-    class Meta:
-        model = Recepcion
-        fields = ['fecha','proveedor', 'contrato','factura','precibe','pentrega','pautoriza','observaciones']
-        exclude = ['almacen','numero','activo']
-        labels = {'fecha': 'Fecha','proveedor': 'Proveedor','contrato': 'Contrato','factura':'Factura','precibe': 'Recibe','pentrega': 'Entrega','pautoriza': 'Autoriza','observaciones': 'Observaciones'}
-        widgets = {
-            'fecha' : TextInput(
-                attrs={
-                    'readonly':'readonly',
-                    'class':'form-control',
-                }
-            ),
-            'proveedor': TextInput(
-                attrs={
-                    'class':'form-control',
-                    'placeholder':'Proveedor'
-                }
-            ),
-            'contrato': TextInput(
-                attrs={
-                    'class':'form-control',
-                    'placeholder':'Contrato'
-                }
-            ),
-            'factura': TextInput(
-                attrs={
-                    'class':'form-control',
-                    'placeholder':'Factura'
-                }
-            ),
-            'precibe': TextInput(
-                attrs={
-                    'class':'form-control',
-                    'placeholder':'Recibe'
-                }
-            ),
-             'pentrega': TextInput(
-                attrs={
-                    'class':'form-control',
-                    'placeholder':'Entrega'
-                }
-            ),
-             'pautoriza': TextInput(
-                attrs={
-                    'class':'form-control',
-                    'placeholder':'Autoriza'
-                }
-            ),
-            'observaciones': Textarea(
-                attrs={
-                    'style':'height:150px',
-                    'class':'form-control',
-                    'placeholder':'Observaciones'
-                }
-            ),
-        }
-
-
+    
+    
 class RecepcionForm(ModelForm):
     class Meta:
         model = Recepcion
         # fields='__all__'
         fields = ['proveedor', 'contrato','factura','precibe','pentrega','pautoriza','observaciones']
         labels = {            
-            'proveedor': 'Proveedor',
-            'contrato': 'Contrato',
-            'factura':'Factura',
-            'precibe': 'Recibe',
-            'pentrega': 'Entrega',
-            'pautoriza': 'Autoriza',
-            'observaciones': 'Observaciones'
+            'proveedor': _('Reception_Provider'),
+            'contrato': _('Reception_Contract'),
+            'factura':_('Reception_Invoice'),
+            'precibe': _('Reception_P_Reception'),
+            'pentrega': _('Reception_P_Deliver'),
+            'pautoriza': _('Reception_P_Autorize'),
+            'observaciones': _('Reception_Details')
         }
         widgets = {   
             'proveedor': TextInput(
                 attrs={
                     'class':'form-control',
-                    'placeholder':'Proveedor'
+                    'placeholder':_('Reception_Provider')
                 }
             ),
             'contrato': TextInput(
                 attrs={
                     'class':'form-control',
-                    'placeholder':'Contrato'
+                    'placeholder':_('Reception_Contract')
                 }
             ),
             'factura': TextInput(
                 attrs={
                     'class':'form-control',
-                    'placeholder':'Factura'
+                    'placeholder':_('Reception_Invoice')
                 }
             ),
             'precibe': TextInput(
                 attrs={
                     'class':'form-control',
-                    'placeholder':'Recibe'
+                    'placeholder':_('Reception_P_Reception')
                 }
             ),
              'pentrega': TextInput(
                 attrs={
                     'class':'form-control',
-                    'placeholder':'Entrega'
+                    'placeholder':_('Reception_P_Deliver')
                 }
             ),
              'pautoriza': TextInput(
                 attrs={
                     'class':'form-control',
-                    'placeholder':'Autoriza'
+                    'placeholder':_('Reception_P_Autorize')
                 }
             ),
             'observaciones': Textarea(
                 attrs={
                     'style':'height:150px',
                     'class':'form-control',
-                    'placeholder':'Observaciones'
+                    'placeholder':_('Reception_Details')
                 }
             ),
         }
 
-class RecepcionmercanciaForm(ModelForm):
-    
-    mercancia = ModelChoiceField(
-                                            label='Mercancia',
-                                            queryset=Mercancia.objects.all(), empty_label='Seleccione: ', 
+class AddRecepcionmercanciaForm(ModelForm):    
+    mercancia = ModelChoiceField(label=_('ReceptionProduct_Product'),queryset=Mercancia.objects.all(), empty_label=_('Reception_SelectProductLabel'), 
                                             widget=Select(attrs={'style':'width: 100%', 'class':'form-control select2bs4'}))
-    cantidad = CharField(label='Cantidad',widget=NumberInput(attrs={'class':'form-control','placeholder':'Cantidad'}))
-    precio = CharField(label='Precio',widget=NumberInput(attrs={'class':'form-control', 'placeholder':'Precio'}))
+    cantidad = CharField(label=_('ReceptionProduct_Quantity'),widget=NumberInput(attrs={'class':'form-control','placeholder':_('ReceptionProduct_Quantity')}))
+    precio = CharField(label=_('ReceptionProduct_Price'),widget=NumberInput(attrs={'class':'form-control', 'placeholder':_('ReceptionProduct_Price')}))
     class Meta:
         model = Recepcionmercancias
         # fields = '__all__'
         fields = ['mercancia','cantidad','precio']
+
+class EditRecepcionmercanciaForm(ModelForm):    
+    cantidad = DecimalField(label=_('ReceptionProduct_Quantity'),widget=NumberInput(attrs={'class':'form-control','placeholder':_('ReceptionProduct_Quantity'),'id':'cantidad_ele'}))
+    precio = DecimalField(label=_('ReceptionProduct_Price'),widget=NumberInput(attrs={'class':'form-control', 'placeholder':_('ReceptionProduct_Price'),'id':'precio_ele'}))
+    class Meta:
+        model = Recepcionmercancias
+        # fields = '__all__'
+        fields = ['cantidad','precio']

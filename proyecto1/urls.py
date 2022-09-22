@@ -21,10 +21,17 @@ from proyecto1.views import *
 from django.urls import path,include
 from polls import views
 from almacen.views import *
+from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
     path('',include('polls.urls'),name='home'),
     path('admin/', admin.site.urls),
-    path('almacen/',include('almacen.urls'))
-    # path('contact/',views.contact, name='contacto')
+    path('almacen/',include('almacen.urls')),
+    path('i18n/', include('django.conf.urls.i18n')),
 ]
+
+# urlpatterns += i18n_patterns(
+#     path('',include('polls.urls'),name='home'),
+#     path('admin/', admin.site.urls),
+#     path('almacen/',include('almacen.urls'))
+# )

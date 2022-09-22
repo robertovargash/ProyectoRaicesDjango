@@ -1,4 +1,5 @@
 {% extends "starter.html" %}
+{% load i18n %}
 {% block content %}
 <div class="content-wrapper">
     <section class="content-header">
@@ -6,7 +7,7 @@
           <div class="row mb-2">
             <div class="col-sm-6">
                 <div class="pull-right">
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAddClasificacion">Nueva clasificación</button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAddClasificacion">{% translate "AddClasification"%}</button>
                 </div>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -18,14 +19,14 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Clasificaciones</h3>
+                  <h3 class="card-title">{% translate "clasification_list_header"%}</h3>
                 </div>
                 <div class="card-body">
                   <table id="tablaClasificaciones" class="table table-bordered table-striped">
                       <thead>
                         <tr>
-                          <th>Clasificación</th>
-                          <th>Detalles</th>
+                          <th>{% translate "Clasification_Name"%}</th>
+                          <th>{% translate "Clasification_Details"%}</th>
                           <th></th>
                       </tr>
                       </thead>
@@ -37,8 +38,8 @@
                              <td>
                                 <div>
                                     <!-- <a href="" class="btn btn-link text-info">Detalles</a>                                   -->
-                                    <a href="{% url 'editar_clasificacion' pk=clasificacion.id %}" class="btn btn-link text-primary">Editar</a>
-                                    <a href="{% url 'eliminar_clasificacion' clasificacion.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#delete-item-modal" onclick="delete_item(this)"><span class="fas fa-trash text-danger"></a>
+                                    <a href="{% url 'editar_clasificacion' pk=clasificacion.id %}" class="btn btn-link text-primary">{% translate "BtnEdit"%}</a>
+                                    <a href="{% url 'eliminar_clasificacion' clasificacion.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#delete-item-modal" onclick="delete_item(this)">{% translate "BtnDelete"%}</a>
                                  </div>
                             </td>
                         </tr>
@@ -46,8 +47,8 @@
                       </tbody>
                       <tfoot>
                         <tr>
-                          <th>Clasificación</th>
-                          <th>Detalles</th>
+                          <th>{% translate "Clasification_Name"%}</th>
+                          <th>{% translate "Clasification_Details"%}</th>
                           <th></th>
                         </tr>
                       </tfoot>

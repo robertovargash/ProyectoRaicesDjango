@@ -1,5 +1,6 @@
+
 {% extends "starter.html" %}
-{% load widget_tweaks %}
+{% load i18n %}
 {% block content %}
 <div class="content-wrapper">
   <div class="content-header">
@@ -8,19 +9,19 @@
         <div class="col-sm-6">
           <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-              <h2>Datos almacén</h2>
+              <h2>{% translate "TitleStoreData"%}</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{% url 'almacenes' %}"> Atrás</a>
-                <a class="btn btn-link text-info" href="#cardRecepciones">Ir a Recepciones</a>
-                <a class="btn btn-link text-info" href="#cardVales">Ir a Vales</a>
+                <a class="btn btn-primary" href="{% url 'almacenes' %}"> {% translate "BtnBack"%}</a>
+                <a class="btn btn-link text-info" href="#cardRecepciones">{% translate 'BtnGoReception'%}</a>
+                <a class="btn btn-link text-info" href="#cardVales">{% translate "BtnGoVoucher"%}</a>
             </div>
           </div>
         </div>
         {% if form.errors %}
                   <div class="alert alert-danger alert-dismissable">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-                    <strong>Vaya!</strong> Ocurrió un error.<br><br>
+                    <strong>Vaya!</strong> Error<br><br>
                     <ul>
                         {% for field in form%}
                           {% for error in field.errors %}
@@ -39,7 +40,7 @@
         <div class="col-12">
           <div class="card card-default">
             <div class="card-header">
-              <h3 class="card-title">Datos almacén</h3>
+              <h3 class="card-title">{% translate "TitleStoreData"%}</h3>
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
               </div>
@@ -59,7 +60,7 @@
                     </div>
                     {%endfor%}
                   <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-success btn-block">Actualizar</button>
+                    <button type="submit" class="btn btn-success btn-block">{{_('StoreBtnUpdate')}}</button>
                   </div>
                   </form>
                 </div>
@@ -72,7 +73,7 @@
         <div class="col-12">
           <div class="card card-success">
             <div class="card-header">
-              <h3 class="card-title">Mercancía en almacén</h3>
+              <h3 class="card-title">{% translate "TitleProductsInStore"%}</h3>
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
               </div>
@@ -81,11 +82,11 @@
               <table id="tablaExistencia" class="table table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th>Código</th>
-                    <th>Mercancía</th>
-                    <th>UM</th>
-                    <th>Existencia</th>
-                    <th>Precio Prom.</th>
+                    <th>{% translate "Product_Code"%}</th>
+                    <th>{% translate "Product_Name"%}</th>
+                    <th>{% translate "Product_UM"%}</th>
+                    <th>{% translate "Product_Quantity"%}</th>
+                    <th>{% translate "Product_Price"%}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -101,11 +102,11 @@
                 </tbody>
                 <tfoot>
                   <tr>
-                    <th>Código</th>
-                    <th>Mercancía</th>
-                    <th>UM</th>
-                    <th>Existencia</th>
-                    <th>Precio Prom.</th>
+                    <th>{% translate "Product_Code"%}</th>
+                    <th>{% translate "Product_Name"%}</th>
+                    <th>{% translate "Product_UM"%}</th>
+                    <th>{% translate "Product_Quantity"%}</th>
+                    <th>{% translate "Product_Price"%}</th>
                   </tr>
                 </tfoot>
             </table>
@@ -117,24 +118,24 @@
         <div class="col-12">
           <div class="card card-info">
             <div class="card-header">
-              <h3 class="card-title">Recepciones del almacén</h3>
+              <h3 class="card-title">{% translate "TitleStoreReception"%}</h3>
               <div class="card-tools">
                 <button id="cardRecepciones" type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
               </div>
             </div>
             <div class="card-body">
               <div class="pull-left mb-2">                
-                    <button type="button" class="btn btn-info AddRecepcion">Adicionar</button>                    
+                    <button type="button" class="btn btn-info AddRecepcion">{% translate "BtnAdd"%}</button>                    
               </div>
               <table id="tablaRecepciones" class="table table-bordered table-striped">
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Estado</th>
-                    <th>Recibido</th>
-                    <th>Entregado</th>
-                    <th>Fecha</th>
-                    <th>Observaciones</th>
+                    <th>{% translate "Reception_Status"%}</th>
+                    <th>{% translate "Reception_P_Reception"%}</th>
+                    <th>{% translate "Reception_P_Deliver"%}</th>
+                    <th>{% translate "Reception_Date"%}</th>
+                    <th>{% translate "Reception_Details"%}</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -145,11 +146,11 @@
                     <td>{{recep.numero}}</td>
                     <td>
                       {% if recep.activo == 0%}
-                      <b>Proceso</b>
+                      <b>{% translate "Status_Process"%}</b>
                       {% elif recep.activo == 1 %}
-                      <b class="text-success">Firmado</b>
+                      <b class="text-success">{% translate "Status_Signed"%}</b>
                       {% else %}
-                      <b class="text-danger">Cancelado</b>
+                      <b class="text-danger">{% translate "Status_Cancelled"%}</b>
                       {%endif%}
                     </td>
                     <td>{{recep.precibe}}</td>
@@ -158,11 +159,11 @@
                     <td>{{recep.observaciones}}</td>
                     <td>
                       <div class="d-inline">
-                          <a href="" class="btn btn-link text-info">Detalles</a>
-                          <a href="" class="btn btn-link text-info ">PDF</a>
-                              <a href="{% url 'editar_recepcion' recep.id %}" class="btn btn-link text-primary">Editar</a>
-                              <a href="{% url 'cancelar_recepcion' recep.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#cancelRecepcionModal" onclick="cancel_recepcion(this,'{{recep.numero}}')">Cancelar</a>
-                              <a href="{% url 'firmar_recepcion' recep.id %}" class="btn btn-link text-success" data-toggle="modal" data-target="#firmarRecepcionModal" onclick="firmar_recepcion(this,'{{recep.numero}}')">Firmar</a>
+                          <!-- <a href="" class="btn btn-link text-info">Detalles</a>
+                          <a href="" class="btn btn-link text-info ">PDF</a> -->
+                              <a href="{% url 'editar_recepcion' recep.id %}" class="btn btn-link text-primary">{% translate "BtnEdit"%}</a>
+                              <a href="{% url 'cancelar_recepcion' recep.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#cancelRecepcionModal" onclick="cancel_recepcion(this,'{{recep.numero}}')">{% translate "BtnCancel"%}</a>
+                              <a href="{% url 'firmar_recepcion' recep.id %}" class="btn btn-link text-success" data-toggle="modal" data-target="#firmarRecepcionModal" onclick="firmar_recepcion(this,'{{recep.numero}}')">{% translate "BtnSign"%}</a>
                       </div>
                 </td>
                   </tr>
@@ -172,11 +173,11 @@
                 <tfoot>
                   <tr>
                     <th>#</th>
-                    <th>Estado</th>
-                    <th>Recibido</th>
-                    <th>Entregado</th>
-                    <th>Fecha</th>
-                    <th>Observaciones</th>
+                    <th>{% translate "Reception_Status"%}</th>
+                    <th>{% translate "Reception_P_Reception"%}</th>
+                    <th>{% translate "Reception_P_Deliver"%}</th>
+                    <th>{% translate "Reception_Date"%}</th>
+                    <th>{% translate "Reception_Details"%}</th>
                     <th></th>
                   </tr>
                 </tfoot>
@@ -257,12 +258,12 @@
 {% endblock %}
 {% block script %}
 <script type="text/javascript">
-  function cancel_recepcion(selected_item, numero){
-        document.getElementById("modal-cancelrecepcion-body").innerHTML ="Desea cancelar el documento "+ numero +"?";
+  function cancel_recepcion(selected_item, numero, question){
+        document.getElementById("modal-cancelrecepcion-body").innerHTML +="Desea cancelar el documento "+ numero +"?";
         document.getElementById("cancel_recepcion_form").action = selected_item.href;        
   } 
-  function firmar_recepcion(selected_item, numero){
-        document.getElementById("modal-firmarrecepcion-body").innerHTML ="Desea firmar el documento "+ numero +"?";
+  function firmar_recepcion(selected_item, numero, question){
+        document.getElementById("modal-firmarrecepcion-body").innerHTML +="Desea firmar el documento "+ numero +"?";
         document.getElementById("firmar_recepcion_form").action = selected_item.href;        
   } 
    $(document).on('click','.AddRecepcion',function(){

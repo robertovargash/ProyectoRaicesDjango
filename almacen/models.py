@@ -3,6 +3,7 @@ from sys import maxsize
 from unicodedata import decimal
 from django.db import models
 from django.forms import model_to_dict
+from django.utils.translation import gettext_lazy as _
 
 
 # Create your models here.

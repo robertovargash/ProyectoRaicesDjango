@@ -1,4 +1,5 @@
 {% extends "starter.html" %}
+{% load i18n %}
 {% block content %}
 <div class="content-wrapper">
     <section class="content-header">
@@ -6,7 +7,7 @@
           <div class="row mb-2">
             <div class="col-sm-6">
                 <div class="pull-right">
-                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAdd">Nueva mercancia</button>
+                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAdd">{% translate "BtnAddProduct"%}</button>
                 </div>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -18,17 +19,17 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Clasificaciones</h3>
+                  <h3 class="card-title">{% translate "Product_List_Header"%}</h3>
                 </div>
                 <div class="card-body">
                   <table id="tabla" class="table table-bordered table-striped">
                       <thead>
                         <tr>
-                          <th>Codigo</th>
-                          <th>Mercancia</th>
-                          <th>UM</th>
-                          <th>Clasificacion</th>
-                          <th>Detalles</th>
+                          <th>{% translate "Product_Code"%}</th>
+                          <th>{% translate "Product_Name"%}</th>
+                          <th>{% translate "Product_UM"%}</th>
+                          <th>{% translate "Product_Clasification"%}</th>
+                          <th>{% translate "Product_Details"%}</th>
                           <th></th>
                       </tr>
                       </thead>
@@ -43,8 +44,8 @@
                              <td>
                                 <div>
                                     <!-- <a href="" class="btn btn-link text-info">Detalles</a>                                   -->
-                                    <a href="{% url 'editar_mercancias' pk=mercancia.id %}" class="btn btn-link text-primary">Editar</a>
-                                    <a href="{% url 'eliminar_mercancias' mercancia.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#delete-item-modal" onclick="delete_item(this)"><span class="fas fa-trash text-danger"></a>
+                                    <a href="{% url 'editar_mercancias' pk=mercancia.id %}" class="btn btn-link text-primary">{% translate "BtnEdit"%}</a>
+                                    <a href="{% url 'eliminar_mercancias' mercancia.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#delete-item-modal" onclick="delete_item(this)">{% translate "BtnDelete"%}</a>
                                  </div>
                             </td>
                         </tr>
@@ -52,11 +53,11 @@
                       </tbody>
                       <tfoot>
                         <tr>
-                          <th>Codigo</th>
-                          <th>Mercancia</th>
-                          <th>UM</th>
-                          <th>Clasificacion</th>
-                          <th>Detalles</th>
+                          <th>{% translate "Product_Code"%}</th>
+                          <th>{% translate "Product_Name"%}</th>
+                          <th>{% translate "Product_UM"%}UM</th>
+                          <th>{% translate "Product_Clasification"%}</th>
+                          <th>{% translate "Product_Details"%}</th>
                           <th></th>
                         </tr>
                       </tfoot>

@@ -1,20 +1,23 @@
 {% load i18n %}
-<div class="modal fade" id="modalAddRecepcion">
+<div class="modal fade" id="modalUpdateRecepcionproducto">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">{% translate "ModalTitleAddReception"%}</h4>
+          <h4 class="modal-title">{% translate "ModalTitleReceptionProduct"%}</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <form id="addrecepcion" action="{% url 'crear_recepcion' %}" method="POST">
-            {% csrf_token %}
-               <div class="row">
-                <input type="hidden" name="almacenid" value="{{ almacen.id }}" class="form-control">
-                <input type="hidden" name="numero" value="0" class="form-control">
-                  {% for field in formRecepcion.visible_fields %}
+          <div class="row">
+            <form id="editrecepcionMercanciaData" method="POST">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-12 form-group">
+                    <strong>{% translate "Product_Name"%}:</strong>
+                    <input type="text" readonly id="editmercancia"  class="form-control" >
+                </div>
+                  {% for field in formEditRecepcion.visible_fields %}
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>{{ field.label }}</strong>
@@ -23,10 +26,11 @@
                     </div>
                   {%endfor%}
                   <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                          <button type="submit" class="btn btn-primary btn-block">{% translate "BtnInsert"%}</button>
+                          <button type="submit" class="btn btn-success btn-block">{% translate "BtnUpdate"%}</button>
                   </div>
               </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
       <!-- /.modal-content -->

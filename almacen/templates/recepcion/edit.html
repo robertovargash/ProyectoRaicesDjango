@@ -1,4 +1,5 @@
 {% extends "starter.html" %}
+{% load i18n %}
 {% block content %}
 <div class="content-wrapper">
     <div class="content-header">
@@ -7,10 +8,10 @@
           <div class="col-sm-6">
             <div class="col-lg-12 margin-tb">
               <div class="pull-left">
-                <h2>Datos recepción No. {{ recepcion.numero }}</h2>
+                <h2>{{_('DataReceptionNumber')}} {{ recepcion.numero }}</h2>
               </div>
               <div class="pull-right">
-                  <a class="btn btn-primary" href="{% url 'editar_almacen' recepcion.almacen_id %}"> Atrás</a>
+                  <a class="btn btn-primary" href="{% url 'editar_almacen' recepcion.almacen_id %}"> {% translate "BtnBack"%}</a>
               </div>
             </div>
           </div>          
@@ -23,7 +24,7 @@
           <div class="col-12">
             <div class="card card-default">
               <div class="card-header">
-                <h3 class="card-title">Datos recepción No. {{ recepcion.numero }}</h3>
+                <h3 class="card-title">{{_('DataReceptionNumber')}} {{ recepcion.numero }}</h3>
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                 </div>
@@ -45,7 +46,7 @@
                             {%endfor%}
                             <!-- {{form}} -->
                             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                              <button type="submit" class="btn btn-primary">Actualizar</button>
+                              <button type="submit" class="btn btn-success btn-block">{% translate "BtnUpdate"%}</button>
                             </div>
                         </div>
                     </form>
@@ -59,23 +60,25 @@
           <div class="col-12">
             <div class="card card-info" id="cardMercancias">
               <div class="card-header">
-                <h3 class="card-title">Mercancías recepcionadas</h3>
+                <h3 class="card-title">{% translate "ProductsInReception"%}</h3>
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                 </div>
               </div>
               <div class="card-body">
                   <div class="pull-left mb-2">
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalAddRecepcionproducto">Adicionar</button>
+                    {% if mercancias.count != 0%}
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalAddRecepcionproducto">{% translate "BtnAdd"%}</button>
+                    {%endif%}
                   </div>
                 <table id="tablaRecepcionmercancia" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th>Código</th>
-                      <th>Mercancía</th>
-                      <th>UM</th>
-                      <th>Cantidad</th>
-                      <th>Precio compra</th>
+                      <th>{% translate "Product_Code"%}</th>
+                      <th>{% translate "Product_Name"%}</th>
+                      <th>{% translate "Product_UM"%}</th>
+                      <th>{% translate "ReceptionProduct_Quantity"%}</th>
+                      <th>{% translate "ReceptionProduct_Price"%}</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -88,20 +91,21 @@
                     <td>{{ merc.cantidad }}</td>
                     <td>{{ merc.precio}} </td>
                     <td>
-                            <a class="btn btn-link editRecepcionProducto text-primary" data-id="{{merc.id}}" data-mercancia="{{merc.mercancia.nombremercancia}}" data-cantidad="{{merc.cantidad}}" data-precio="{{merc.precio}}">Editar</a>
+                            <!-- <a class="btn btn-link editRecepcionProducto text-primary" data-id="{{merc.id}}" data-mercancia="{{merc.mercancia.nombremercancia}}" data-cantidad="{{merc.cantidad}}" data-precio="{{merc.precio}}">Editar</a> -->
+                            <a href="{% url 'editar_recepcionmercancia' merc.id %}" class="btn btn-link text-primary" data-toggle="modal" data-target="#modalUpdateRecepcionproducto" onclick="edit_item(this,'{{merc.mercancia.nombremercancia}}','{{merc.cantidad}}','{{merc.precio}}')">{% translate "BtnEdit"%}</a>
                             <!-- <a class="btn btn-link deleteRecepcionProducto text-danger" data-id="{{merc.id}}">Eliminar</a> -->
-                            <a href="{% url 'eliminar_recepcionmercancia' merc.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#deleteRecepcionMercanciaModal" onclick="delete_item(this,'{{merc.mercancia.nombremercancia}}')">Eliminar</a>
+                            <a href="{% url 'eliminar_recepcionmercancia' merc.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#deleteRecepcionMercanciaModal" onclick="delete_item(this,'{{merc.mercancia.nombremercancia}}')">{% translate "BtnDelete"%}</a>
                     </td>
                   </tr>
                   {%endfor%}
                   </tbody>
                   <tfoot>
                     <tr>
-                      <th>Código</th>
-                      <th>Mercancía</th>
-                      <th>UM</th>
-                      <th>Cantidad</th>
-                      <th>Precio compra</th>
+                      <th>{% translate "Product_Code"%}</th>
+                      <th>{% translate "Product_Name"%}</th>
+                      <th>{% translate "Product_UM"%}</th>
+                      <th>{% translate "ReceptionProduct_Quantity"%}</th>
+                      <th>{% translate "ReceptionProduct_Price"%}</th>
                       <th></th>
                     </tr>
                   </tfoot>
@@ -115,12 +119,23 @@
   </div> 
   {% include 'recepcion/modals/delete_mercancia.html' %}
   {% include 'recepcion/modals/add_mercancia.html' %}
+  {% include 'recepcion/modals/update_mercancia.html' %}
 {% endblock %}
 {% block script %}
 <script>
     function delete_item(selected_item, nombre){
         document.getElementById("modal_deleterecepcionmercancia_body").innerHTML ="Desea eliminar la mercancia con nombre "+ nombre +"?";
         document.getElementById("delete_recepcionmercancia_form").action = selected_item.href;        
+  } 
+  function edit_item(selected_item, mercancia, cantidad, precio){
+        // document.getElementById("modal_deleterecepcionmercancia_body").innerHTML ="Desea eliminar la mercancia con nombre "+ nombre +"?";
+        document.getElementById("editrecepcionMercanciaData").action = selected_item.href;
+        document.getElementById("cantidad_ele").value = parseFloat(cantidad);
+        document.getElementById("precio_ele").value = parseFloat(precio); 
+        document.getElementById("editmercancia").value = mercancia; 
+        console.log( typeof cantidad);
+        console.log(typeof precio);
+        // console.log(mercancia);
   } 
 $(document).ready(function () {
     $('#btnInsertar').click(function () {

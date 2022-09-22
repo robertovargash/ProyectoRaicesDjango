@@ -1,3 +1,4 @@
+{% load i18n %}
 {% load static %}
 <!DOCTYPE html>
 <!--
@@ -51,7 +52,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Authentication Links -->
       <!-- ACA DEBEMOS PONER UNA CONDICION DE QUE SI NO ESTA AUTENTICADO EL LOGIN, Y SI ESTA AUTENTICADO, EL OTRO MENU -->
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'home' %}">Login</a>
+        <a class="nav-link" href="{% url 'home' %}">{% translate "Login"%}</a>
       </li>
       <!-- EL OTRO MENU -->
       <li class="nav-item dropdown">
@@ -59,16 +60,42 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <a href="" class="dropdown-item"><i class="fa fa-cog fa-fw"></i> Cambiar contraseña</a>
+            <a href="" class="dropdown-item"><i class="fa fa-cog fa-fw"></i> {% translate "MainTemplateChangePassword"%}</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">
-              <i class="fa fa-sign-out-alt fa-fw"></i> Salir
+              <i class="fa fa-sign-out-alt fa-fw"></i> {% translate "MainTemplateSignOut"%}
             </a>
-            <!-- <form id="logout-form" action="" method="POST" class="d-none">
-              @csrf
-            </form> -->
         </div>
-      </li>        
+      </li>
+      <li>
+        <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+          <input name="next" type="hidden" value="{{ redirect_to }}">
+          <select name="language" class="form-control" onchange="this.form.submit()">
+              {% get_current_language as LANGUAGE_CODE %}
+              {% get_available_languages as LANGUAGES %}
+              {% get_language_info_list for LANGUAGES as languages %}
+              {% for language in languages %}
+                  <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                     {{ language.code }}
+                  </option>
+              {% endfor %}
+          </select>
+      </form>
+      </li>
+      <!-- <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="fa fa-globe fa-fw"></i> <i class="fa fa-caret-down"></i>
+        </a>
+        {<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          % get_current_language as LANGUAGE_CODE %}
+          {% get_available_languages as LANGUAGES %}
+          {% get_language_info_list for LANGUAGES as languages %}
+          {% for lang in languages%}
+            <a href="{% url 'set_language' %}" class="dropdown-item"></i> {{lang.name_local}} ({{ lang.code }})</a>
+          {%endfor%}
+          
+        </div>         
+      </li>      -->  
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -78,7 +105,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <a href="{% url 'home' %}" class="brand-link">
       <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">{% translate "Management"%}</span>
     </a>
     <!-- Sidebar -->
     <div class="sidebar">
@@ -88,7 +115,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Bienvenido Anonimo</a>
+          <a href="#" class="d-block">Welcome</a>
         </div>
       </div>
 
@@ -101,7 +128,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="{% url 'almacenes' %}" class="nav-link">
               <i class="nav-icon fas fa-warehouse"></i>
               <p>
-                Almacenes
+                {% translate "MainTemplateStore"%}
               </p>
             </a>
           </li>
@@ -109,7 +136,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-shopping-cart"></i>
               <p>
-                Ventas
+                {% translate "MainTemplateSales"%}
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -117,31 +144,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <li class="nav-item">
                     <a href="{% url 'home' %}" class="nav-link">
                         <i class="fa fa-file-invoice-dollar nav-icon"></i>
-                        <p>Facturas</p>
+                        <p>{% translate "MainTemplateInvoices"%}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'home' %}" class="nav-link">
                         <i class="fas fa-birthday-cake nav-icon"></i>
-                        <p>Ofertas</p>
+                        <p>{% translate "MainTemplateOffers"%}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'home' %}" class="nav-link">
                     <i class="fas fa-phone nav-icon"></i>
-                    <p>Solicitudes</p>
+                    <p>{% translate "MainTemplateRequests"%}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'home' %}" class="nav-link">
                     <i class="fas fa-boxes nav-icon"></i>
-                    <p>Productos</p>
+                    <p>{% translate "MainTemplateProducts"%}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'home' %}" class="nav-link">
                     <i class="fas fa-list nav-icon"></i>
-                    <p>O. Trabajos</p>
+                    <p>{% translate "MainTemplateJobOrders"%}</p>
                     </a>
                 </li>
             </ul>
@@ -150,7 +177,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-circle"></i>
               <p>
-                Nomencladores
+                {% translate "MainTemplateCore"%}
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -158,32 +185,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <li class="nav-item">
                     <a href="{% url 'home' %}" class="nav-link">
                       <i class="nav-icon fa fa-home"></i>
-                      <p>Proveedor</p>
+                      <p>{% translate "MainTemplateProvider"%}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'home' %}" class="nav-link">
                       <i class="nav-icon fa fa-user-plus"></i>
-                      <p>Clientes</p>
+                      <p>{% translate "MainTemplateClients"%}</p>
                     </a>
                 </li>
               <li class="nav-item">
                 <a href="{% url 'mercancias' %}" class="nav-link">
                   <i class="nav-icon fa fa-box"></i>
-                  <p>Mercancías</p>
+                  <p>{% translate "MainTemplateProducts"%}</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{% url 'home' %}" class="nav-link">
                   <i class="fa fa-money-check-alt nav-icon"></i>
-                  <p>Cuentas</p>
+                  <p>{% translate "MainTemplateFinnace"%}</p>
                 </a>
               </li>
               <li class="nav-item nav-has-treeview">
                 <a  class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>
-                    Clasificadores
+                    {% translate "MainTemplateClasificators"%}
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
@@ -191,21 +218,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <li class="nav-item">
                     <a href="{% url 'home' %}" class="nav-link">
                       <i class="far fa-dot-circle nav-icon"></i>
-                      <p>De cuentas</p>
+                      <p>{% translate "MainTemplateAboutAccounts"%}</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="{% url 'clasificaciones' %}" class="nav-link">
                       <i class="far fa-dot-circle nav-icon"></i>
-                      <p>De mercancías</p>
+                      <p>{% translate "MainTemplateOfProducts"%}</p>
                     </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="{% url 'home' %}" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>De productos</p>
-                    </a>
-                  </li>
+                  </li>                  
                 </ul>
               </li>
             </ul>
@@ -214,7 +235,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-cog fa-fw"></i>
               <p>
-                Administración
+                {% translate "MainTemplateManagement"%}
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -222,19 +243,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="nav-item">
                 <a href="{% url 'home' %}" class="nav-link">
                   <i class="nav-icon fa fa-users"></i>
-                  <p>Usuarios</p>
+                  <p>{% translate "MainTemplateUsers"%}</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{% url 'home' %}" class="nav-link">
                   <i class="fa fa-list-ul nav-icon"></i>
-                  <p>Roles</p>
+                  <p>{% translate "MainTemplateRoles"%}</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{% url 'home' %}" class="nav-link">
                   <i class="fa fa-tasks nav-icon"></i>
-                  <p>Permisos</p>
+                  <p>{% translate "MainTemplateAccess"%}</p>
                 </a>
               </li>
             </ul>
@@ -254,10 +275,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <footer class="main-footer">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
-      Anything you want
+      Raices
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2014-2022 <a href="https://adminlte.io">Raices</a>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->

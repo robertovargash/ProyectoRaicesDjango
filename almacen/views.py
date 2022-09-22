@@ -2,6 +2,7 @@ from datetime import datetime
 from multiprocessing import context
 from pyexpat import model
 from pyexpat.errors import messages
+from typing import final
 from urllib import request
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -11,13 +12,16 @@ from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.views.generic import ListView, CreateView,DeleteView,UpdateView,TemplateView, FormView
 # from django.http import JsonResponse
 from django.utils.decorators import method_decorator
-from almacen.forms import AddRecepcionForm, AlmacenesForm, ClasificacionesForm, EditRecepcionForm, MercanciasForm, RecepcionForm, RecepcionmercanciaForm
+from almacen.forms import AlmacenesForm, ClasificacionesForm,  MercanciasForm, RecepcionForm, AddRecepcionmercanciaForm,EditRecepcionmercanciaForm
 from django.urls import reverse_lazy,reverse
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import ModelFormMixin
 from django.shortcuts import get_object_or_404,redirect
 from django.contrib import messages
 from django.http import JsonResponse
+from django.utils.translation import gettext as _
+from django.utils.translation import get_language,gettext,activate
+
 
 
 # Create your views here.
@@ -32,14 +36,12 @@ from django.http import JsonResponse
 #         request,
 #         'pages/index.html',data
 #     )
-
 class AlmacenesListView(ListView):
     model = Almacen
     template_name = 'almacen/index.html'
-    success_message = "Bien!!!!"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = "Lista de Almacenes"
+        context['title'] = _('Store_List_Header')
         context['form'] = AlmacenesForm
         return context
 
@@ -47,7 +49,10 @@ class AlmacenesCreateView(SuccessMessageMixin, CreateView):
     model = Almacen
     form_class = AlmacenesForm
     success_url = reverse_lazy('almacenes')
-    success_message = "Insertado correctamente!!!!"
+
+    def form_valid(self, form):
+      messages.success(self.request, _('success_insert_store'))
+      return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
@@ -58,7 +63,10 @@ class AlmacenesUpdateView(SuccessMessageMixin, UpdateView):
     form_class = AlmacenesForm
     template_name = 'almacen/edit.html'
     success_url = reverse_lazy('almacenes')
-    success_message = "Actualizado correctamente!!!!"
+
+    def form_valid(self, form):
+      messages.success(self.request, _('success_udpate_store'))
+      return super().form_valid(form)
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
@@ -73,7 +81,12 @@ class AlmacenesUpdateView(SuccessMessageMixin, UpdateView):
 class AlmacenesDeleteView(SuccessMessageMixin, DeleteView):
     model = Almacen
     success_url = reverse_lazy('almacenes')
-    success_message = "Eliminado correctamente!!!!"
+    # success_message = _('success_delete')
+
+    def form_valid(self, form):
+      messages.success(self.request, _('success_delete_store'))
+      return super().form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
         return context
@@ -83,7 +96,7 @@ class MercanciasListView(ListView):
     template_name = 'mercancia/index.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = "Lista de mercancias"
+        context['title'] = _('Product_List_Header')
         context['form'] = MercanciasForm
         return context
 
@@ -91,10 +104,12 @@ class MercanciasCreateView(SuccessMessageMixin, CreateView):
     model = Mercancia
     form_class = MercanciasForm
     success_url = reverse_lazy('mercancias')
-    success_message = "Insertado correctamente!!!!"
+    # success_message = _('success_insert')
+
     def form_valid(self, form):
         self.object = form.save()
         almacenes = Almacen.objects.all()
+        messages.success(self.request, _('success_insert_product'))
         for almacen in almacenes:
             almacenmercancia = Almacenmercancia()
             almacenmercancia.almacen = almacen
@@ -108,7 +123,11 @@ class MercanciasUpdateView(SuccessMessageMixin, UpdateView):
     form_class = MercanciasForm
     template_name = 'mercancia/edit.html'
     success_url = reverse_lazy('mercancias')
-    success_message = "Actualizado correctamente!!!!"
+    # success_message = _('success_udpate')
+
+    def form_valid(self, form):
+      messages.success(self.request, _('success_udpate_product'))
+      return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -117,17 +136,22 @@ class MercanciasUpdateView(SuccessMessageMixin, UpdateView):
 class MercanciasDeleteView(SuccessMessageMixin, DeleteView):
     model = Mercancia
     success_url = reverse_lazy('mercancias')
-    success_message = "Eliminado correctamente!!!!"
+    # success_message = _('success_delete')
+    def form_valid(self, form):
+      messages.success(self.request, _('success_delete_product'))
+      return super().form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
-        return context
+        return context   
+    
 
 class ClasificacionesListView(ListView):
     model = Clasificaciones
     template_name = 'clasificacion/index.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = "Lista de clasificaciones"
+        context['title'] = _('clasification_list_header')
         context['form'] = ClasificacionesForm()
         return context
 
@@ -136,7 +160,11 @@ class ClasificacionesCreateView(SuccessMessageMixin, CreateView):
     form_class = ClasificacionesForm
     # template_name = 'clasificacion/index.html'
     success_url = reverse_lazy('clasificaciones')
-    success_message = "Insertado correctamente!!!!"
+    # success_message = _('success_insert')
+
+    def form_valid(self, form):
+      messages.success(self.request, _('success_insert_clasification'))
+      return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
@@ -147,7 +175,11 @@ class ClasificacionesUpdateView(SuccessMessageMixin, UpdateView):
     form_class = ClasificacionesForm
     template_name = 'clasificacion/edit.html'
     success_url = reverse_lazy('clasificaciones')
-    success_message = "Actualizado correctamente!!!!"
+    # success_message = _('success_update')
+
+    def form_valid(self, form):
+      messages.success(self.request, _('success_update_clasification'))
+      return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
@@ -156,7 +188,12 @@ class ClasificacionesUpdateView(SuccessMessageMixin, UpdateView):
 class ClasificacionesDeleteView(SuccessMessageMixin, DeleteView):
     model = Clasificaciones
     success_url = reverse_lazy('clasificaciones')
-    success_message = "Eliminado correctamente!!!!"
+    success_message = _('success_delete')
+
+    def form_valid(self, form):
+      messages.success(self.request, _('success_delete_clasification'))
+      return super().form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
         return context
@@ -166,7 +203,7 @@ class RecepcionCreateView(SuccessMessageMixin, CreateView):
     form_class = RecepcionForm
     # path('almacenes/<int:pk>/update/', AlmacenesUpdateView.as_view(), name='editar_almacen'),
     # success_url = reverse_lazy('almacenes')
-    success_message = "Insertado correctamente!!!!"
+    # success_message = _('success_insert')
     def form_valid(self, form):
         count = Recepcion.objects.all().count()
         self.object = form.save(commit=False)
@@ -174,8 +211,8 @@ class RecepcionCreateView(SuccessMessageMixin, CreateView):
         self.object.activo = 0
         self.object.almacen_id = self.request.POST['almacenid']
         self.object.numero = count+1
-        self.object.save()         
-        print(self.request)
+        self.object.save()
+        messages.success(self.request, _('success_insert_reception'))
         return redirect('editar_recepcion', pk=self.object.id)
 
 class RecepcionUpdateView(SuccessMessageMixin, UpdateView):
@@ -183,40 +220,71 @@ class RecepcionUpdateView(SuccessMessageMixin, UpdateView):
     form_class = RecepcionForm
     template_name = 'recepcion/edit.html'
     # success_url = reverse_lazy('almacenes')
-    success_message = "Actualizado correctamente!!!!"
+    # success_message = _('success_update')
     def get_success_url(self):
         almacen_id = self.object.almacen_id 
         return reverse( 'editar_almacen', kwargs={'pk': almacen_id})
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.save() 
+        messages.success(self.request, _('success_update_reception'))
         return super(RecepcionUpdateView, self).form_valid(form)
         # return redirect('editar_almacen', pk=self.object.almacen_id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
-        context['formAddRecepcion'] = RecepcionmercanciaForm()
+        formadd = AddRecepcionmercanciaForm()
+        recepcionmerc = Recepcionmercancias.objects.filter(recepcion=self.object).values('mercancia_id')
+        mercancias = Mercancia.objects.exclude(id__in=recepcionmerc)
+        formadd.fields['mercancia'].queryset = mercancias
+        context['formAddRecepcion'] = formadd
+        context['mercancias'] = mercancias
+        context['formEditRecepcion'] = EditRecepcionmercanciaForm()
         context['recepcionmercancias'] = Recepcionmercancias.objects.filter(recepcion=self.object)
         return context
 
 def cancelar_recepcion(request, pk):
     recepcion = Recepcion.objects.get(pk=pk)
-    recepcion.activo = 2
-    recepcion.save()
-    return redirect(reverse('editar_almacen', kwargs={"pk": recepcion.almacen_id}))
+    if recepcion.activo == 0:
+        recepcion.activo = 2
+        recepcion.save()
+        mess = _('success_cancel_reception')
+        messages.add_message(request, messages.SUCCESS, mess)
+        return redirect(reverse('editar_almacen', kwargs={"pk": recepcion.almacen_id}) + '#cardRecepciones')
+    else:
+        mess = _('error_cancel_reception')
+        messages.add_message(request, messages.ERROR, mess)
+        return redirect(reverse('editar_almacen', kwargs={"pk": recepcion.almacen_id}) + '#cardRecepciones')
 
 def firmar_recepcion(request, pk):
     recepcion = Recepcion.objects.get(pk=pk)
-    recepcion.activo = 1
-    recepcion.save()
-    return redirect(reverse('editar_almacen', kwargs={"pk": recepcion.almacen_id}))
+    recepcionesmercancias = Recepcionmercancias.objects.filter(recepcion_id=recepcion.id)
+    if recepcion.activo == 0:
+        recepcion.activo = 1
+        for recepmerc in recepcionesmercancias:
+            almacenmercancia = Almacenmercancia.objects.filter(mercancia_id = recepmerc.mercancia_id).filter(almacen_id = recepcion.almacen_id).first()
+            cantidad1 = almacenmercancia.cantidad
+            almacenmercancia.cantidad = almacenmercancia.cantidad + recepmerc.cantidad
+            mercancia = Mercancia.objects.get(pk=almacenmercancia.mercancia_id)
+            precio1 = mercancia.precio
+            mercancia.precio = ((precio1*cantidad1) +  (recepmerc.precio*recepmerc.cantidad))/(cantidad1 + recepmerc.cantidad)
+            almacenmercancia.save()
+            mercancia.save()
+        recepcion.save()
+        messages.add_message(request, messages.SUCCESS, _('success_sign_reception'))
+        return redirect(reverse('editar_almacen', kwargs={"pk": recepcion.almacen_id}) + '#cardRecepciones')
+    else:
+        messages.add_message(request, messages.ERROR, _('error_sign_reception'))
+        return redirect(reverse('editar_almacen', kwargs={"pk": recepcion.almacen_id}) + '#cardRecepciones')
+    
+    
 
 class RecepcionmercanciaCreateView(SuccessMessageMixin, CreateView):
     model = Recepcionmercancias
-    form_class = RecepcionmercanciaForm
+    form_class = AddRecepcionmercanciaForm
     # path('almacenes/<int:pk>/update/', AlmacenesUpdateView.as_view(), name='editar_almacen'),
     # success_url = reverse_lazy('almacenes')
-    success_message = "Insertado correctamente!!!!"
+    # success_message = _('success_insert')
     def get_success_url(self):
         recepcion_id = self.object.recepcion_id 
         return reverse( 'editar_recepcion', kwargs={'pk': recepcion_id})
@@ -228,11 +296,30 @@ class RecepcionmercanciaCreateView(SuccessMessageMixin, CreateView):
         self.object.recepcion_id = self.request.POST['recepcion_id']
         # self.object.numero = count+1
         self.object.save()
+        messages.success(self.request, _('success_insert_receptionproduct'))
         return super(RecepcionmercanciaCreateView, self).form_valid(form)
 
 class RecepcionmercanciaDeleteView(SuccessMessageMixin, DeleteView):
     model = Recepcionmercancias
-    success_message = "Eliminado correctamente!!!!"
+    # success_message = _('success_delete')
+    def form_valid(self, form):
+      messages.success(self.request, _('success_delete_receptionproduct'))
+      return super().form_valid(form)
+
+    def get_success_url(self):
+        recepcion_id = self.object.recepcion_id 
+        return reverse( 'editar_recepcion', kwargs={'pk': recepcion_id})
+
+class RecepcionmercanciaUpdateView(SuccessMessageMixin, UpdateView):
+    model = Recepcionmercancias
+    form_class = EditRecepcionmercanciaForm
+    # path('almacenes/<int:pk>/update/', AlmacenesUpdateView.as_view(), name='editar_almacen'),
+    # success_url = reverse_lazy('almacenes')
+    # success_message = _('success_udpate')
+    def form_valid(self, form):
+      messages.success(self.request, _('success_udpate_receptionproduct'))
+      return super().form_valid(form)
+
     def get_success_url(self):
         recepcion_id = self.object.recepcion_id 
         return reverse( 'editar_recepcion', kwargs={'pk': recepcion_id})

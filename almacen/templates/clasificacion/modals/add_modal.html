@@ -1,9 +1,10 @@
+{% load i18n %}
 <div class="modal fade" id="modalAddClasificacion">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Adicionar clasificación</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+        <h4 class="modal-title">{% translate "ModalTitleAddClasification"%}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -21,7 +22,7 @@
                     </div>
                   {%endfor%}
                   <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                          <button type="submit" class="btn btn-primary">Insertar</button>
+                          <button type="submit" class="btn btn-primary btn-block">{% translate "BtnInsert"%}</button>
                   </div>
               </div>
           </form>

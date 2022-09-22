@@ -1,4 +1,5 @@
 {% extends "starter.html" %}
+{% load i18n %}
 {% block content %}
 <div class="content-wrapper">
     <section class="content-header">
@@ -6,7 +7,7 @@
           <div class="row mb-2">
             <div class="col-sm-6">
               <div class="pull-right">
-                  <button type="button" class="btn btn-success mb-2 addAlmacen">Nuevo almacén</button>
+                  <button type="button" class="btn btn-success mb-2 addAlmacen">{% translate "BtnAdd"%}</button>
               </div>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -24,8 +25,8 @@
                   <table id="tablaAlmacenes" class="table table-bordered table-striped">
                       <thead>
                         <tr>
-                          <th>Almacén</th>
-                          <th>Detalles</th>
+                          <th>{{_('Store_Name')}}</th>
+                          <th>{% translate "Store_Details"%}</th>
                           <th></th>
                       </tr>
                       </thead>
@@ -37,8 +38,8 @@
                             <td>
                               <div>
                                  <!-- <a href="" class="btn btn-link text-info">Detalles</a>                                   -->
-                                 <a href="{% url 'editar_almacen' pk=almacen.id %}" class="btn btn-link text-primary">Editar</a>
-                                 <a href="{% url 'eliminar_almacen' almacen.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#delete-item-modal" onclick="delete_item(this)"><span class="fas fa-trash text-danger"></a>
+                                 <a href="{% url 'editar_almacen' pk=almacen.id %}" class="btn btn-link text-primary">{% translate "BtndEdit"%}</a>
+                                 <a href="{% url 'eliminar_almacen' almacen.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#delete-item-modal" onclick="delete_item(this)">{% translate "BtnDelete"%}</a>
 
                               </div>
                            </td>
@@ -47,8 +48,8 @@
                       </tbody>
                       <tfoot>
                         <tr>
-                          <th>Almacén</th>
-                          <th>Detalles</th>
+                          <th>{% translate "Store_Name"%}</th>
+                          <th>{% translate "Store_Details"%}</th>
                           <th></th>
                         </tr>
                       </tfoot>

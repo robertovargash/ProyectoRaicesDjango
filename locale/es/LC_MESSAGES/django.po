@@ -1,0 +1,521 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-22 12:46-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\almacen\forms.py:15 .\almacen\forms.py:22
+#: .\almacen\templates\almacen\index.html:28
+#: .\almacen\templates\almacen\index.html:51
+msgid "Store_Name"
+msgstr "Almacén"
+
+#: .\almacen\forms.py:16 .\almacen\forms.py:29
+#: .\almacen\templates\almacen\index.html:29
+#: .\almacen\templates\almacen\index.html:52
+msgid "Store_Details"
+msgstr "Detalles de almacén"
+
+#: .\almacen\forms.py:40 .\almacen\forms.py:47
+#: .\almacen\templates\clasificacion\index.html:28
+#: .\almacen\templates\clasificacion\index.html:50
+msgid "Clasification_Name"
+msgstr "Clasificacion"
+
+#: .\almacen\forms.py:41 .\almacen\forms.py:54
+#: .\almacen\templates\clasificacion\index.html:29
+#: .\almacen\templates\clasificacion\index.html:51
+msgid "Clasification_Details"
+msgstr "Detalles"
+
+#: .\almacen\forms.py:65 .\almacen\templates\almacen\edit.html:85
+#: .\almacen\templates\almacen\edit.html:105
+#: .\almacen\templates\mercancia\index.html:28
+#: .\almacen\templates\mercancia\index.html:56
+#: .\almacen\templates\recepcion\edit.html:77
+#: .\almacen\templates\recepcion\edit.html:104
+msgid "Product_Code"
+msgstr "Código"
+
+#: .\almacen\forms.py:66 .\almacen\templates\almacen\edit.html:86
+#: .\almacen\templates\almacen\edit.html:106
+#: .\almacen\templates\mercancia\index.html:29
+#: .\almacen\templates\mercancia\index.html:57
+#: .\almacen\templates\recepcion\edit.html:78
+#: .\almacen\templates\recepcion\edit.html:105
+#: .\almacen\templates\recepcion\modals\update_mercancia.html:17
+msgid "Product_Name"
+msgstr "Producto"
+
+#: .\almacen\forms.py:67 .\almacen\templates\almacen\edit.html:87
+#: .\almacen\templates\almacen\edit.html:107
+#: .\almacen\templates\mercancia\index.html:30
+#: .\almacen\templates\mercancia\index.html:58
+#: .\almacen\templates\recepcion\edit.html:79
+#: .\almacen\templates\recepcion\edit.html:106
+msgid "Product_UM"
+msgstr "UM"
+
+#: .\almacen\forms.py:69 .\almacen\templates\mercancia\index.html:31
+#: .\almacen\templates\mercancia\index.html:59
+msgid "Product_Clasification"
+msgstr "Clasificación"
+
+#: .\almacen\forms.py:70
+msgid "Product_SelectClasificationLabel"
+msgstr "Seleccione:"
+
+#: .\almacen\forms.py:72 .\almacen\templates\mercancia\index.html:32
+#: .\almacen\templates\mercancia\index.html:60
+msgid "Product_Details"
+msgstr "Detalles"
+
+#: .\almacen\forms.py:85 .\almacen\forms.py:97
+msgid "Reception_Provider"
+msgstr "Proveedor"
+
+#: .\almacen\forms.py:86 .\almacen\forms.py:103
+msgid "Reception_Contract"
+msgstr "Contrato"
+
+#: .\almacen\forms.py:87 .\almacen\forms.py:109
+msgid "Reception_Invoice"
+msgstr "Factura"
+
+#: .\almacen\forms.py:88 .\almacen\forms.py:115
+#: .\almacen\templates\almacen\edit.html:135
+#: .\almacen\templates\almacen\edit.html:177
+msgid "Reception_P_Reception"
+msgstr "Recepciona"
+
+#: .\almacen\forms.py:89 .\almacen\forms.py:121
+#: .\almacen\templates\almacen\edit.html:136
+#: .\almacen\templates\almacen\edit.html:178
+msgid "Reception_P_Deliver"
+msgstr "Entrega"
+
+#: .\almacen\forms.py:90 .\almacen\forms.py:127
+msgid "Reception_P_Autorize"
+msgstr "Autoriza"
+
+#: .\almacen\forms.py:91 .\almacen\forms.py:134
+#: .\almacen\templates\almacen\edit.html:138
+#: .\almacen\templates\almacen\edit.html:180
+msgid "Reception_Details"
+msgstr "Detalles"
+
+#: .\almacen\forms.py:140
+msgid "ReceptionProduct_Product"
+msgstr "Producto"
+
+#: .\almacen\forms.py:140
+msgid "Reception_SelectProductLabel"
+msgstr "Seleccione:"
+
+#: .\almacen\forms.py:142 .\almacen\forms.py:150
+#: .\almacen\templates\recepcion\edit.html:80
+#: .\almacen\templates\recepcion\edit.html:107
+msgid "ReceptionProduct_Quantity"
+msgstr "Cantidad"
+
+#: .\almacen\forms.py:143 .\almacen\forms.py:151
+#: .\almacen\templates\recepcion\edit.html:81
+#: .\almacen\templates\recepcion\edit.html:108
+msgid "ReceptionProduct_Price"
+msgstr "Precio"
+
+#: .\almacen\templates\almacen\edit.html:12
+#: .\almacen\templates\almacen\edit.html:43
+msgid "TitleStoreData"
+msgstr "Datos de almacén"
+
+#: .\almacen\templates\almacen\edit.html:15
+#: .\almacen\templates\clasificacion\edit.html:14
+#: .\almacen\templates\mercancia\edit.html:14
+#: .\almacen\templates\recepcion\edit.html:14
+msgid "BtnBack"
+msgstr "Atrás"
+
+#: .\almacen\templates\almacen\edit.html:16
+msgid "BtnGoReception"
+msgstr "Ir a recepciones"
+
+#: .\almacen\templates\almacen\edit.html:17
+msgid "BtnGoVoucher"
+msgstr "Ir a vales"
+
+#: .\almacen\templates\almacen\edit.html:63
+msgid "StoreBtnUpdate"
+msgstr "Actualizar"
+
+#: .\almacen\templates\almacen\edit.html:76
+msgid "TitleProductsInStore"
+msgstr "Productos en almacén"
+
+#: .\almacen\templates\almacen\edit.html:88
+#: .\almacen\templates\almacen\edit.html:108
+msgid "Product_Quantity"
+msgstr "Cantidad"
+
+#: .\almacen\templates\almacen\edit.html:89
+#: .\almacen\templates\almacen\edit.html:109
+msgid "Product_Price"
+msgstr "Precio"
+
+#: .\almacen\templates\almacen\edit.html:121
+msgid "TitleStoreReception"
+msgstr ""
+
+#: .\almacen\templates\almacen\edit.html:128
+#: .\almacen\templates\almacen\index.html:10
+#: .\almacen\templates\recepcion\edit.html:71
+msgid "BtnAdd"
+msgstr "Adicionar"
+
+#: .\almacen\templates\almacen\edit.html:134
+#: .\almacen\templates\almacen\edit.html:176
+msgid "Reception_Status"
+msgstr "Estado"
+
+#: .\almacen\templates\almacen\edit.html:137
+#: .\almacen\templates\almacen\edit.html:179
+msgid "Reception_Date"
+msgstr "Fecha"
+
+#: .\almacen\templates\almacen\edit.html:149
+msgid "Status_Process"
+msgstr "En proceso"
+
+#: .\almacen\templates\almacen\edit.html:151
+msgid "Status_Signed"
+msgstr "Firmado"
+
+#: .\almacen\templates\almacen\edit.html:153
+msgid "Status_Cancelled"
+msgstr "Cancelado"
+
+#: .\almacen\templates\almacen\edit.html:164
+#: .\almacen\templates\clasificacion\index.html:41
+#: .\almacen\templates\mercancia\index.html:47
+#: .\almacen\templates\recepcion\edit.html:95
+msgid "BtnEdit"
+msgstr "Editar"
+
+#: .\almacen\templates\almacen\edit.html:165
+#: .\almacen\templates\almacen\modals\cancel_recepcion.html:18
+#: .\almacen\templates\almacen\modals\delete_almacen_modal.html:11
+#: .\almacen\templates\almacen\modals\firmar_recepcion.html:15
+msgid "BtnCancel"
+msgstr "Cancelar"
+
+#: .\almacen\templates\almacen\edit.html:166
+#: .\almacen\templates\almacen\modals\firmar_recepcion.html:18
+msgid "BtnSign"
+msgstr "Firmar"
+
+#: .\almacen\templates\almacen\index.html:41
+msgid "BtndEdit"
+msgstr "Editar"
+
+#: .\almacen\templates\almacen\index.html:42
+#: .\almacen\templates\almacen\modals\delete_almacen_modal.html:13
+#: .\almacen\templates\clasificacion\index.html:42
+#: .\almacen\templates\clasificacion\modals\delete_modal.html:19
+#: .\almacen\templates\mercancia\index.html:48
+#: .\almacen\templates\mercancia\modals\delete_modal.html:19
+#: .\almacen\templates\recepcion\edit.html:97
+#: .\almacen\templates\recepcion\modals\delete_mercancia.html:17
+msgid "BtnDelete"
+msgstr "Eliminar"
+
+#: .\almacen\templates\almacen\modals\add_almacen_modal.html:6
+msgid "ModalTitleAddStore"
+msgstr "Adicionar almacén"
+
+#: .\almacen\templates\almacen\modals\add_almacen_modal.html:25
+#: .\almacen\templates\almacen\modals\add_recepcion_modal.html:26
+#: .\almacen\templates\clasificacion\modals\add_modal.html:25
+#: .\almacen\templates\mercancia\modals\add_modal.html:25
+#: .\almacen\templates\recepcion\modals\add_mercancia.html:27
+msgid "BtnInsert"
+msgstr "Insertar"
+
+#: .\almacen\templates\almacen\modals\add_recepcion_modal.html:6
+msgid "ModalTitleAddReception"
+msgstr "Nueva recepcion"
+
+#: .\almacen\templates\almacen\modals\cancel_recepcion.html:6
+msgid "ModalTitleCancelConfirm"
+msgstr "Confirmación"
+
+#: .\almacen\templates\almacen\modals\cancel_recepcion.html:15
+#: .\almacen\templates\clasificacion\modals\delete_modal.html:15
+#: .\almacen\templates\mercancia\modals\delete_modal.html:15
+#: .\almacen\templates\recepcion\modals\delete_mercancia.html:15
+msgid "BtnClose"
+msgstr "Cerrar"
+
+#: .\almacen\templates\almacen\modals\delete_almacen_modal.html:7
+msgid "ModalDeleteStoreQuestion"
+msgstr "Desea eliminar el almacén?"
+
+#: .\almacen\templates\almacen\modals\firmar_recepcion.html:6
+msgid "ModalTitleSignConfirm"
+msgstr "Confirmación"
+
+#: .\almacen\templates\clasificacion\edit.html:11
+msgid "TitleEditClasification"
+msgstr "Editar clasificación"
+
+#: .\almacen\templates\clasificacion\edit.html:38
+#: .\almacen\templates\mercancia\edit.html:39
+#: .\almacen\templates\recepcion\edit.html:49
+#: .\almacen\templates\recepcion\modals\update_mercancia.html:29
+msgid "BtnUpdate"
+msgstr "Actualizar"
+
+#: .\almacen\templates\clasificacion\index.html:10
+msgid "AddClasification"
+msgstr "Adicionar clasificación"
+
+#: .\almacen\templates\clasificacion\index.html:22 .\almacen\views.py:154
+msgid "clasification_list_header"
+msgstr "Clasificaciones"
+
+#: .\almacen\templates\clasificacion\modals\add_modal.html:6
+msgid "ModalTitleAddClasification"
+msgstr "Nueva clasificación"
+
+#: .\almacen\templates\clasificacion\modals\delete_modal.html:6
+#: .\almacen\templates\mercancia\modals\delete_modal.html:6
+#: .\almacen\templates\recepcion\modals\delete_mercancia.html:6
+msgid "ModalTitleDeleteConfirm"
+msgstr "Confirmación"
+
+#: .\almacen\templates\clasificacion\modals\delete_modal.html:12
+msgid "ModalDeleteClasificationQuestion"
+msgstr "Desea eliminar la clasificación?"
+
+#: .\almacen\templates\mercancia\edit.html:11
+msgid "TitleEditProduct"
+msgstr "Editar producto"
+
+#: .\almacen\templates\mercancia\index.html:10
+msgid "BtnAddProduct"
+msgstr "Adicionar producto"
+
+#: .\almacen\templates\mercancia\index.html:22 .\almacen\views.py:99
+msgid "Product_List_Header"
+msgstr "Productos"
+
+#: .\almacen\templates\mercancia\modals\add_modal.html:6
+msgid "ModalTitleAddProduct"
+msgstr "Nuevo producto"
+
+#: .\almacen\templates\mercancia\modals\delete_modal.html:12
+msgid "ModalDeleteProductQuestion"
+msgstr "Desea eliminar el producto?"
+
+#: .\almacen\templates\recepcion\edit.html:11
+#: .\almacen\templates\recepcion\edit.html:27
+msgid "DataReceptionNumber"
+msgstr "Datos de recepcion No."
+
+#: .\almacen\templates\recepcion\edit.html:63
+msgid "ProductsInReception"
+msgstr "Productos de la recepción"
+
+#: .\almacen\templates\recepcion\modals\add_mercancia.html:7
+#: .\almacen\templates\recepcion\modals\update_mercancia.html:6
+msgid "ModalTitleReceptionProduct"
+msgstr "Producto"
+
+#: .\almacen\views.py:44
+msgid "Store_List_Header"
+msgstr "Almacenes"
+
+#: .\almacen\views.py:54
+msgid "success_insert_store"
+msgstr "Almacén Insertado correctamente!!!"
+
+#: .\almacen\views.py:68
+msgid "success_udpate_store"
+msgstr "Almacén Actualizado correctamente!!!"
+
+#: .\almacen\views.py:87
+msgid "success_delete_store"
+msgstr "Almacén Eliminado correctamente!!!"
+
+#: .\almacen\views.py:112
+msgid "success_insert_product"
+msgstr "Producto Insertado correctamente!!!"
+
+#: .\almacen\views.py:129
+msgid "success_udpate_product"
+msgstr "Producto Actualizado correctamente!!!"
+
+#: .\almacen\views.py:141
+msgid "success_delete_product"
+msgstr "Producto Eliminado correctamente!!!"
+
+#: .\almacen\views.py:166
+msgid "success_insert_clasification"
+msgstr "Clasificación Insertada correctamente!!!"
+
+#: .\almacen\views.py:181
+msgid "success_update_clasification"
+msgstr "Clasificación Actualizada correctamente!!!"
+
+#: .\almacen\views.py:191
+msgid "success_delete"
+msgstr "Eliminado correctamente!!!"
+
+#: .\almacen\views.py:194
+msgid "success_delete_clasification"
+msgstr "Eliminado correctamente!!!"
+
+#: .\almacen\views.py:215
+msgid "success_insert_reception"
+msgstr "Recepción Insertada correctamente!!!"
+
+#: .\almacen\views.py:230
+msgid "success_update_reception"
+msgstr "Recepción Actualizada correctamente!!!"
+
+#: .\almacen\views.py:251
+msgid "success_cancel_reception"
+msgstr "Recepción Cancelada correctamente!!!"
+
+#: .\almacen\views.py:255
+msgid "error_cancel_reception"
+msgstr "Error al cancelar!!!"
+
+#: .\almacen\views.py:274
+msgid "success_sign_reception"
+msgstr "Recepción Firmada correctamente!!!"
+
+#: .\almacen\views.py:277
+msgid "error_sign_reception"
+msgstr "Error al firmar!!!"
+
+#: .\almacen\views.py:299
+msgid "success_insert_receptionproduct"
+msgstr "Producto Insertado correctamente!!!"
+
+#: .\almacen\views.py:306
+msgid "success_delete_receptionproduct"
+msgstr "Producto Eliminado correctamente!!!"
+
+#: .\almacen\views.py:320
+msgid "success_udpate_receptionproduct"
+msgstr "Producto Actualizado correctamente!!!"
+
+#: .\polls\templates\starter.html:55
+msgid "Login"
+msgstr "Autenticar"
+
+#: .\polls\templates\starter.html:63
+msgid "MainTemplateChangePassword"
+msgstr "Cambiar contraseña"
+
+#: .\polls\templates\starter.html:66
+msgid "MainTemplateSignOut"
+msgstr "Salir"
+
+#: .\polls\templates\starter.html:108
+msgid "Management"
+msgstr "Administración"
+
+#: .\polls\templates\starter.html:131
+msgid "MainTemplateStore"
+msgstr "Almacenes"
+
+#: .\polls\templates\starter.html:139
+msgid "MainTemplateSales"
+msgstr "Ventas"
+
+#: .\polls\templates\starter.html:147
+msgid "MainTemplateInvoices"
+msgstr "Facturas"
+
+#: .\polls\templates\starter.html:153
+msgid "MainTemplateOffers"
+msgstr "Ofertas"
+
+#: .\polls\templates\starter.html:159
+msgid "MainTemplateRequests"
+msgstr "Pedidos"
+
+#: .\polls\templates\starter.html:165 .\polls\templates\starter.html:200
+msgid "MainTemplateProducts"
+msgstr "Productos"
+
+#: .\polls\templates\starter.html:171
+msgid "MainTemplateJobOrders"
+msgstr "Orden de trabajo"
+
+#: .\polls\templates\starter.html:180
+msgid "MainTemplateCore"
+msgstr "Codificadores"
+
+#: .\polls\templates\starter.html:188
+msgid "MainTemplateProvider"
+msgstr "Proveedor"
+
+#: .\polls\templates\starter.html:194
+msgid "MainTemplateClients"
+msgstr "Clientes"
+
+#: .\polls\templates\starter.html:206
+msgid "MainTemplateFinnace"
+msgstr "Finanzas"
+
+#: .\polls\templates\starter.html:213
+msgid "MainTemplateClasificators"
+msgstr "Clasificadores"
+
+#: .\polls\templates\starter.html:221
+msgid "MainTemplateAboutAccounts"
+msgstr "De cuentas"
+
+#: .\polls\templates\starter.html:227
+msgid "MainTemplateOfProducts"
+msgstr "De Productos"
+
+#: .\polls\templates\starter.html:238
+msgid "MainTemplateManagement"
+msgstr "Administracion"
+
+#: .\polls\templates\starter.html:246
+msgid "MainTemplateUsers"
+msgstr "usuarios"
+
+#: .\polls\templates\starter.html:252
+msgid "MainTemplateRoles"
+msgstr "Roles"
+
+#: .\polls\templates\starter.html:258
+msgid "MainTemplateAccess"
+msgstr "Permisos"
+
+#: .\proyecto1\settings.py:145
+msgid "Spanish"
+msgstr "Español"
+
+#: .\proyecto1\settings.py:146
+msgid "English"
+msgstr "INgles"
