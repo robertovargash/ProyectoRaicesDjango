@@ -22,9 +22,13 @@ from django.urls import path,include
 from polls import views
 from almacen.views import *
 from django.conf.urls.i18n import i18n_patterns
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import logout_then_login
 
 urlpatterns = [
     path('',include('polls.urls'),name='home'),
+    path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html'),name='login'),
+    path('accounts/logout/', logout_then_login,name='logout'),
     path('admin/', admin.site.urls),
     path('almacen/',include('almacen.urls')),
     path('i18n/', include('django.conf.urls.i18n')),

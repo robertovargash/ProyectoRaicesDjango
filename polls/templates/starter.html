@@ -50,23 +50,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </ul>
     <ul class="navbar-nav ml-auto">
       <!-- Authentication Links -->
-      <!-- ACA DEBEMOS PONER UNA CONDICION DE QUE SI NO ESTA AUTENTICADO EL LOGIN, Y SI ESTA AUTENTICADO, EL OTRO MENU -->
+      {% if user.is_authenticated %}            
+        <li class="nav-item dropdown">
+          <a class="nav-link" data-toggle="dropdown" href="#">
+              <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+              <a href="" class="dropdown-item"><i class="fa fa-cog fa-fw"></i> {% translate "MainTemplateChangePassword"%}</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'logout' %}">
+                <i class="fa fa-sign-out-alt fa-fw"></i> {% translate "MainTemplateSignOut"%}
+              </a>
+          </div>
+        </li>
+      {% else %}
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'home' %}">{% translate "Login"%}</a>
+        <a class="nav-link" href="{% url 'login' %}">{% translate "Login"%}</a>
       </li>
+      {% endif %}
+     
       <!-- EL OTRO MENU -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-            <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <a href="" class="dropdown-item"><i class="fa fa-cog fa-fw"></i> {% translate "MainTemplateChangePassword"%}</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="">
-              <i class="fa fa-sign-out-alt fa-fw"></i> {% translate "MainTemplateSignOut"%}
-            </a>
-        </div>
-      </li>
+      
       <li>
         <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
           <input name="next" type="hidden" value="{{ redirect_to }}">
@@ -82,20 +86,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </select>
       </form>
       </li>
-      <!-- <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-            <i class="fa fa-globe fa-fw"></i> <i class="fa fa-caret-down"></i>
-        </a>
-        {<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          % get_current_language as LANGUAGE_CODE %}
-          {% get_available_languages as LANGUAGES %}
-          {% get_language_info_list for LANGUAGES as languages %}
-          {% for lang in languages%}
-            <a href="{% url 'set_language' %}" class="dropdown-item"></i> {{lang.name_local}} ({{ lang.code }})</a>
-          {%endfor%}
-          
-        </div>         
-      </li>      -->  
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -115,7 +105,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Welcome</a>
+          {% if user.is_authenticated %}            
+            <a class="d-block">Welcome, {{ user.username }}</a>
+          {% else %}
+            <a class="d-block">Welcome guest</a>
+          {% endif %}
+          <!-- <a href="#" class="d-block">Welcome {{user}}</a> -->
         </div>
       </div>
 
@@ -128,7 +123,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="{% url 'almacenes' %}" class="nav-link">
               <i class="nav-icon fas fa-warehouse"></i>
               <p>
-                {% translate "MainTemplateStore"%}
+                {% translate "MainTemplateStores"%}
               </p>
             </a>
           </li>

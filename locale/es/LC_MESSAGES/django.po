@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-22 12:46-0400\n"
+"POT-Creation-Date: 2022-09-24 12:23-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,24 +42,13 @@ msgstr "Clasificacion"
 msgid "Clasification_Details"
 msgstr "Detalles"
 
-#: .\almacen\forms.py:65 .\almacen\templates\almacen\edit.html:85
-#: .\almacen\templates\almacen\edit.html:105
-#: .\almacen\templates\mercancia\index.html:28
-#: .\almacen\templates\mercancia\index.html:56
-#: .\almacen\templates\recepcion\edit.html:77
-#: .\almacen\templates\recepcion\edit.html:104
-msgid "Product_Code"
-msgstr "Código"
 
-#: .\almacen\forms.py:66 .\almacen\templates\almacen\edit.html:86
-#: .\almacen\templates\almacen\edit.html:106
-#: .\almacen\templates\mercancia\index.html:29
-#: .\almacen\templates\mercancia\index.html:57
-#: .\almacen\templates\recepcion\edit.html:78
-#: .\almacen\templates\recepcion\edit.html:105
-#: .\almacen\templates\recepcion\modals\update_mercancia.html:17
-msgid "Product_Name"
-msgstr "Producto"
+msgid "Product_Codes"
+msgstr "CódigoNuevo"
+
+
+msgid "Product_Names"
+msgstr "ProductoNuevo"
 
 #: .\almacen\forms.py:67 .\almacen\templates\almacen\edit.html:87
 #: .\almacen\templates\almacen\edit.html:107
@@ -165,6 +154,25 @@ msgstr "Actualizar"
 #: .\almacen\templates\almacen\edit.html:76
 msgid "TitleProductsInStore"
 msgstr "Productos en almacén"
+
+#: .\almacen\templates\almacen\edit.html:85
+#: .\almacen\templates\almacen\edit.html:105
+#: .\almacen\templates\mercancia\index.html:28
+#: .\almacen\templates\mercancia\index.html:56
+#: .\almacen\templates\recepcion\edit.html:77
+#: .\almacen\templates\recepcion\edit.html:104
+msgid "Product_Code"
+msgstr "Código"
+
+#: .\almacen\templates\almacen\edit.html:86
+#: .\almacen\templates\almacen\edit.html:106
+#: .\almacen\templates\mercancia\index.html:29
+#: .\almacen\templates\mercancia\index.html:57
+#: .\almacen\templates\recepcion\edit.html:78
+#: .\almacen\templates\recepcion\edit.html:105
+#: .\almacen\templates\recepcion\modals\update_mercancia.html:17
+msgid "Product_Name"
+msgstr "Producto"
 
 #: .\almacen\templates\almacen\edit.html:88
 #: .\almacen\templates\almacen\edit.html:108
@@ -292,7 +300,7 @@ msgstr "Actualizar"
 msgid "AddClasification"
 msgstr "Adicionar clasificación"
 
-#: .\almacen\templates\clasificacion\index.html:22 .\almacen\views.py:154
+#: .\almacen\templates\clasificacion\index.html:22 .\almacen\views.py:155
 msgid "clasification_list_header"
 msgstr "Clasificaciones"
 
@@ -318,7 +326,7 @@ msgstr "Editar producto"
 msgid "BtnAddProduct"
 msgstr "Adicionar producto"
 
-#: .\almacen\templates\mercancia\index.html:22 .\almacen\views.py:99
+#: .\almacen\templates\mercancia\index.html:22 .\almacen\views.py:100
 msgid "Product_List_Header"
 msgstr "Productos"
 
@@ -344,178 +352,178 @@ msgstr "Productos de la recepción"
 msgid "ModalTitleReceptionProduct"
 msgstr "Producto"
 
-#: .\almacen\views.py:44
+#: .\almacen\views.py:45
 msgid "Store_List_Header"
 msgstr "Almacenes"
 
-#: .\almacen\views.py:54
+#: .\almacen\views.py:55
 msgid "success_insert_store"
 msgstr "Almacén Insertado correctamente!!!"
 
-#: .\almacen\views.py:68
+#: .\almacen\views.py:69
 msgid "success_udpate_store"
 msgstr "Almacén Actualizado correctamente!!!"
 
-#: .\almacen\views.py:87
+#: .\almacen\views.py:88
 msgid "success_delete_store"
 msgstr "Almacén Eliminado correctamente!!!"
 
-#: .\almacen\views.py:112
+#: .\almacen\views.py:113
 msgid "success_insert_product"
 msgstr "Producto Insertado correctamente!!!"
 
-#: .\almacen\views.py:129
+#: .\almacen\views.py:130
 msgid "success_udpate_product"
 msgstr "Producto Actualizado correctamente!!!"
 
-#: .\almacen\views.py:141
+#: .\almacen\views.py:142
 msgid "success_delete_product"
 msgstr "Producto Eliminado correctamente!!!"
 
-#: .\almacen\views.py:166
+#: .\almacen\views.py:167
 msgid "success_insert_clasification"
 msgstr "Clasificación Insertada correctamente!!!"
 
-#: .\almacen\views.py:181
+#: .\almacen\views.py:182
 msgid "success_update_clasification"
 msgstr "Clasificación Actualizada correctamente!!!"
 
-#: .\almacen\views.py:191
+#: .\almacen\views.py:192
 msgid "success_delete"
 msgstr "Eliminado correctamente!!!"
 
-#: .\almacen\views.py:194
+#: .\almacen\views.py:195
 msgid "success_delete_clasification"
 msgstr "Eliminado correctamente!!!"
 
-#: .\almacen\views.py:215
+#: .\almacen\views.py:216
 msgid "success_insert_reception"
 msgstr "Recepción Insertada correctamente!!!"
 
-#: .\almacen\views.py:230
+#: .\almacen\views.py:231
 msgid "success_update_reception"
 msgstr "Recepción Actualizada correctamente!!!"
 
-#: .\almacen\views.py:251
+#: .\almacen\views.py:253
 msgid "success_cancel_reception"
 msgstr "Recepción Cancelada correctamente!!!"
 
-#: .\almacen\views.py:255
+#: .\almacen\views.py:257
 msgid "error_cancel_reception"
 msgstr "Error al cancelar!!!"
 
-#: .\almacen\views.py:274
+#: .\almacen\views.py:277
 msgid "success_sign_reception"
 msgstr "Recepción Firmada correctamente!!!"
 
-#: .\almacen\views.py:277
+#: .\almacen\views.py:280
 msgid "error_sign_reception"
 msgstr "Error al firmar!!!"
 
-#: .\almacen\views.py:299
+#: .\almacen\views.py:302
 msgid "success_insert_receptionproduct"
 msgstr "Producto Insertado correctamente!!!"
 
-#: .\almacen\views.py:306
+#: .\almacen\views.py:309
 msgid "success_delete_receptionproduct"
 msgstr "Producto Eliminado correctamente!!!"
 
-#: .\almacen\views.py:320
+#: .\almacen\views.py:323
 msgid "success_udpate_receptionproduct"
 msgstr "Producto Actualizado correctamente!!!"
 
-#: .\polls\templates\starter.html:55
-msgid "Login"
-msgstr "Autenticar"
-
-#: .\polls\templates\starter.html:63
+#: .\polls\templates\starter.html:59
 msgid "MainTemplateChangePassword"
 msgstr "Cambiar contraseña"
 
-#: .\polls\templates\starter.html:66
+#: .\polls\templates\starter.html:62
 msgid "MainTemplateSignOut"
 msgstr "Salir"
 
-#: .\polls\templates\starter.html:108
+#: .\polls\templates\starter.html:68
+msgid "Login"
+msgstr "Autenticar"
+
+#: .\polls\templates\starter.html:98
 msgid "Management"
 msgstr "Administración"
 
-#: .\polls\templates\starter.html:131
-msgid "MainTemplateStore"
-msgstr "Almacenes"
+#: .\polls\templates\starter.html:126
+msgid "MainTemplateStores"
+msgstr "AlmacenesPrueba"
 
-#: .\polls\templates\starter.html:139
+#: .\polls\templates\starter.html:134
 msgid "MainTemplateSales"
 msgstr "Ventas"
 
-#: .\polls\templates\starter.html:147
+#: .\polls\templates\starter.html:142
 msgid "MainTemplateInvoices"
 msgstr "Facturas"
 
-#: .\polls\templates\starter.html:153
+#: .\polls\templates\starter.html:148
 msgid "MainTemplateOffers"
 msgstr "Ofertas"
 
-#: .\polls\templates\starter.html:159
+#: .\polls\templates\starter.html:154
 msgid "MainTemplateRequests"
 msgstr "Pedidos"
 
-#: .\polls\templates\starter.html:165 .\polls\templates\starter.html:200
+#: .\polls\templates\starter.html:160 .\polls\templates\starter.html:195
 msgid "MainTemplateProducts"
 msgstr "Productos"
 
-#: .\polls\templates\starter.html:171
+#: .\polls\templates\starter.html:166
 msgid "MainTemplateJobOrders"
 msgstr "Orden de trabajo"
 
-#: .\polls\templates\starter.html:180
+#: .\polls\templates\starter.html:175
 msgid "MainTemplateCore"
 msgstr "Codificadores"
 
-#: .\polls\templates\starter.html:188
+#: .\polls\templates\starter.html:183
 msgid "MainTemplateProvider"
 msgstr "Proveedor"
 
-#: .\polls\templates\starter.html:194
+#: .\polls\templates\starter.html:189
 msgid "MainTemplateClients"
 msgstr "Clientes"
 
-#: .\polls\templates\starter.html:206
+#: .\polls\templates\starter.html:201
 msgid "MainTemplateFinnace"
 msgstr "Finanzas"
 
-#: .\polls\templates\starter.html:213
+#: .\polls\templates\starter.html:208
 msgid "MainTemplateClasificators"
 msgstr "Clasificadores"
 
-#: .\polls\templates\starter.html:221
+#: .\polls\templates\starter.html:216
 msgid "MainTemplateAboutAccounts"
 msgstr "De cuentas"
 
-#: .\polls\templates\starter.html:227
+#: .\polls\templates\starter.html:222
 msgid "MainTemplateOfProducts"
 msgstr "De Productos"
 
-#: .\polls\templates\starter.html:238
+#: .\polls\templates\starter.html:233
 msgid "MainTemplateManagement"
 msgstr "Administracion"
 
-#: .\polls\templates\starter.html:246
+#: .\polls\templates\starter.html:241
 msgid "MainTemplateUsers"
 msgstr "usuarios"
 
-#: .\polls\templates\starter.html:252
+#: .\polls\templates\starter.html:247
 msgid "MainTemplateRoles"
 msgstr "Roles"
 
-#: .\polls\templates\starter.html:258
+#: .\polls\templates\starter.html:253
 msgid "MainTemplateAccess"
 msgstr "Permisos"
 
-#: .\proyecto1\settings.py:145
+#: .\proyecto1\settings.py:148
 msgid "Spanish"
 msgstr "Español"
 
-#: .\proyecto1\settings.py:146
+#: .\proyecto1\settings.py:149
 msgid "English"
 msgstr "INgles"

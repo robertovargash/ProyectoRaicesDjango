@@ -18,9 +18,9 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import ModelFormMixin
 from django.shortcuts import get_object_or_404,redirect
 from django.contrib import messages
-from django.http import JsonResponse
 from django.utils.translation import gettext as _
-from django.utils.translation import get_language,gettext,activate
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 
@@ -36,7 +36,8 @@ from django.utils.translation import get_language,gettext,activate
 #         request,
 #         'pages/index.html',data
 #     )
-class AlmacenesListView(ListView):
+# @login_required
+class AlmacenesListView(LoginRequiredMixin,ListView):
     model = Almacen
     template_name = 'almacen/index.html'
     def get_context_data(self, **kwargs):
@@ -45,7 +46,7 @@ class AlmacenesListView(ListView):
         context['form'] = AlmacenesForm
         return context
 
-class AlmacenesCreateView(SuccessMessageMixin, CreateView):
+class AlmacenesCreateView(LoginRequiredMixin,SuccessMessageMixin, CreateView):
     model = Almacen
     form_class = AlmacenesForm
     success_url = reverse_lazy('almacenes')
@@ -58,7 +59,7 @@ class AlmacenesCreateView(SuccessMessageMixin, CreateView):
         context = super().get_context_data(**kwargs) 
         return context
 
-class AlmacenesUpdateView(SuccessMessageMixin, UpdateView):
+class AlmacenesUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     model = Almacen
     form_class = AlmacenesForm
     template_name = 'almacen/edit.html'
@@ -78,7 +79,7 @@ class AlmacenesUpdateView(SuccessMessageMixin, UpdateView):
         context['almacen'] = self.object
         return context
     
-class AlmacenesDeleteView(SuccessMessageMixin, DeleteView):
+class AlmacenesDeleteView(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     model = Almacen
     success_url = reverse_lazy('almacenes')
     # success_message = _('success_delete')
@@ -91,7 +92,7 @@ class AlmacenesDeleteView(SuccessMessageMixin, DeleteView):
         context = super().get_context_data(**kwargs) 
         return context
 
-class MercanciasListView(ListView):
+class MercanciasListView(LoginRequiredMixin,ListView):
     model = Mercancia
     template_name = 'mercancia/index.html'
     def get_context_data(self, **kwargs):
@@ -100,7 +101,7 @@ class MercanciasListView(ListView):
         context['form'] = MercanciasForm
         return context
 
-class MercanciasCreateView(SuccessMessageMixin, CreateView):
+class MercanciasCreateView(LoginRequiredMixin,SuccessMessageMixin, CreateView):
     model = Mercancia
     form_class = MercanciasForm
     success_url = reverse_lazy('mercancias')
@@ -118,7 +119,7 @@ class MercanciasCreateView(SuccessMessageMixin, CreateView):
             almacenmercancia.save()
         return super().form_valid(form)
 
-class MercanciasUpdateView(SuccessMessageMixin, UpdateView):
+class MercanciasUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     model = Mercancia
     form_class = MercanciasForm
     template_name = 'mercancia/edit.html'
@@ -133,7 +134,7 @@ class MercanciasUpdateView(SuccessMessageMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         return context
 
-class MercanciasDeleteView(SuccessMessageMixin, DeleteView):
+class MercanciasDeleteView(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     model = Mercancia
     success_url = reverse_lazy('mercancias')
     # success_message = _('success_delete')
@@ -146,7 +147,7 @@ class MercanciasDeleteView(SuccessMessageMixin, DeleteView):
         return context   
     
 
-class ClasificacionesListView(ListView):
+class ClasificacionesListView(LoginRequiredMixin,ListView):
     model = Clasificaciones
     template_name = 'clasificacion/index.html'
     def get_context_data(self, **kwargs):
@@ -155,7 +156,7 @@ class ClasificacionesListView(ListView):
         context['form'] = ClasificacionesForm()
         return context
 
-class ClasificacionesCreateView(SuccessMessageMixin, CreateView):
+class ClasificacionesCreateView(LoginRequiredMixin,SuccessMessageMixin, CreateView):
     model = Clasificaciones
     form_class = ClasificacionesForm
     # template_name = 'clasificacion/index.html'
@@ -170,7 +171,7 @@ class ClasificacionesCreateView(SuccessMessageMixin, CreateView):
         context = super().get_context_data(**kwargs) 
         return context
 
-class ClasificacionesUpdateView(SuccessMessageMixin, UpdateView):
+class ClasificacionesUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     model = Clasificaciones
     form_class = ClasificacionesForm
     template_name = 'clasificacion/edit.html'
@@ -185,7 +186,7 @@ class ClasificacionesUpdateView(SuccessMessageMixin, UpdateView):
         context = super().get_context_data(**kwargs) 
         return context
 
-class ClasificacionesDeleteView(SuccessMessageMixin, DeleteView):
+class ClasificacionesDeleteView(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     model = Clasificaciones
     success_url = reverse_lazy('clasificaciones')
     success_message = _('success_delete')
@@ -198,7 +199,7 @@ class ClasificacionesDeleteView(SuccessMessageMixin, DeleteView):
         context = super().get_context_data(**kwargs) 
         return context
 
-class RecepcionCreateView(SuccessMessageMixin, CreateView):
+class RecepcionCreateView(LoginRequiredMixin,SuccessMessageMixin, CreateView):
     model = Recepcion
     form_class = RecepcionForm
     # path('almacenes/<int:pk>/update/', AlmacenesUpdateView.as_view(), name='editar_almacen'),
@@ -215,7 +216,7 @@ class RecepcionCreateView(SuccessMessageMixin, CreateView):
         messages.success(self.request, _('success_insert_reception'))
         return redirect('editar_recepcion', pk=self.object.id)
 
-class RecepcionUpdateView(SuccessMessageMixin, UpdateView):
+class RecepcionUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     model = Recepcion
     form_class = RecepcionForm
     template_name = 'recepcion/edit.html'
@@ -243,6 +244,7 @@ class RecepcionUpdateView(SuccessMessageMixin, UpdateView):
         context['recepcionmercancias'] = Recepcionmercancias.objects.filter(recepcion=self.object)
         return context
 
+@login_required(login_url='/accounts/login/')
 def cancelar_recepcion(request, pk):
     recepcion = Recepcion.objects.get(pk=pk)
     if recepcion.activo == 0:
@@ -256,6 +258,7 @@ def cancelar_recepcion(request, pk):
         messages.add_message(request, messages.ERROR, mess)
         return redirect(reverse('editar_almacen', kwargs={"pk": recepcion.almacen_id}) + '#cardRecepciones')
 
+@login_required(login_url='/accounts/login/')
 def firmar_recepcion(request, pk):
     recepcion = Recepcion.objects.get(pk=pk)
     recepcionesmercancias = Recepcionmercancias.objects.filter(recepcion_id=recepcion.id)
@@ -279,7 +282,7 @@ def firmar_recepcion(request, pk):
     
     
 
-class RecepcionmercanciaCreateView(SuccessMessageMixin, CreateView):
+class RecepcionmercanciaCreateView(LoginRequiredMixin,SuccessMessageMixin, CreateView):
     model = Recepcionmercancias
     form_class = AddRecepcionmercanciaForm
     # path('almacenes/<int:pk>/update/', AlmacenesUpdateView.as_view(), name='editar_almacen'),
@@ -299,7 +302,7 @@ class RecepcionmercanciaCreateView(SuccessMessageMixin, CreateView):
         messages.success(self.request, _('success_insert_receptionproduct'))
         return super(RecepcionmercanciaCreateView, self).form_valid(form)
 
-class RecepcionmercanciaDeleteView(SuccessMessageMixin, DeleteView):
+class RecepcionmercanciaDeleteView(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     model = Recepcionmercancias
     # success_message = _('success_delete')
     def form_valid(self, form):
@@ -310,7 +313,7 @@ class RecepcionmercanciaDeleteView(SuccessMessageMixin, DeleteView):
         recepcion_id = self.object.recepcion_id 
         return reverse( 'editar_recepcion', kwargs={'pk': recepcion_id})
 
-class RecepcionmercanciaUpdateView(SuccessMessageMixin, UpdateView):
+class RecepcionmercanciaUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     model = Recepcionmercancias
     form_class = EditRecepcionmercanciaForm
     # path('almacenes/<int:pk>/update/', AlmacenesUpdateView.as_view(), name='editar_almacen'),
