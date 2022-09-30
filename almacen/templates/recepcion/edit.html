@@ -11,7 +11,9 @@
                 <h2>{{_('DataReceptionNumber')}} {{ recepcion.numero }}</h2>
               </div>
               <div class="pull-right">
+                {% if perms.almacen.change_almacen %}
                   <a class="btn btn-primary" href="{% url 'editar_almacen' recepcion.almacen_id %}"> {% translate "BtnBack"%}</a>
+                {%endif%}
               </div>
             </div>
           </div>          
@@ -36,6 +38,7 @@
                         {% csrf_token %}        
                          <div class="row">
                             <input type="hidden" name="id" value="{{recepcion.id}}" class="form-control">
+                            <input type="hidden" name="almacenid" value="{{recepcion.almacen_id}" class="form-control">
                             {% for field in form.visible_fields %}
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
@@ -46,7 +49,9 @@
                             {%endfor%}
                             <!-- {{form}} -->
                             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                              {% if perms.almacen.change_recepcion %}
                               <button type="submit" class="btn btn-success btn-block">{% translate "BtnUpdate"%}</button>
+                              {%endif%}
                             </div>
                         </div>
                     </form>
@@ -67,7 +72,7 @@
               </div>
               <div class="card-body">
                   <div class="pull-left mb-2">
-                    {% if mercancias.count != 0%}
+                    {% if perms.almacen.add_recepcionmercancias %}
                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalAddRecepcionproducto">{% translate "BtnAdd"%}</button>
                     {%endif%}
                   </div>
@@ -91,10 +96,12 @@
                     <td>{{ merc.cantidad }}</td>
                     <td>{{ merc.precio}} </td>
                     <td>
-                            <!-- <a class="btn btn-link editRecepcionProducto text-primary" data-id="{{merc.id}}" data-mercancia="{{merc.mercancia.nombremercancia}}" data-cantidad="{{merc.cantidad}}" data-precio="{{merc.precio}}">Editar</a> -->
-                            <a href="{% url 'editar_recepcionmercancia' merc.id %}" class="btn btn-link text-primary" data-toggle="modal" data-target="#modalUpdateRecepcionproducto" onclick="edit_item(this,'{{merc.mercancia.nombremercancia}}','{{merc.cantidad}}','{{merc.precio}}')">{% translate "BtnEdit"%}</a>
-                            <!-- <a class="btn btn-link deleteRecepcionProducto text-danger" data-id="{{merc.id}}">Eliminar</a> -->
-                            <a href="{% url 'eliminar_recepcionmercancia' merc.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#deleteRecepcionMercanciaModal" onclick="delete_item(this,'{{merc.mercancia.nombremercancia}}')">{% translate "BtnDelete"%}</a>
+                      {% if perms.almacen.change_recepcionmercancias %}
+                      <a href="{% url 'editar_recepcionmercancia' merc.id %}" class="btn btn-link text-primary" data-toggle="modal" data-target="#modalUpdateRecepcionproducto" onclick="edit_item(this,'{{merc.mercancia.nombremercancia}}','{{merc.cantidad}}','{{merc.precio}}')">{% translate "BtnEdit"%}</a>
+                      {%endif%}
+                      {% if perms.almacen.delete_recepcionmercancias %}
+                      <a href="{% url 'eliminar_recepcionmercancia' merc.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#deleteRecepcionMercanciaModal" onclick="delete_item(this,'{{merc.mercancia.nombremercancia}}')">{% translate "BtnDelete"%}</a>
+                      {% endif %}
                     </td>
                   </tr>
                   {%endfor%}

@@ -35,7 +35,9 @@
                     </div>
                     {%endfor%}
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                      {% if perms.almacen.change_clasificaciones %}
                       <button type="submit" class="btn btn-primary btn-block">{% translate "BtnUpdate"%}</button>
+                      {%endif%}
                     </div>
                 </div>
             </form>

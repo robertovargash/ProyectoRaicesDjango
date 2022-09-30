@@ -19,24 +19,10 @@ from django.views.generic.edit import ModelFormMixin
 from django.shortcuts import get_object_or_404,redirect
 from django.contrib import messages
 from django.utils.translation import gettext as _
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required,permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 
 
-
-# Create your views here.
-# def almacenes(request):
-#     """Renders the home page."""
-#     assert isinstance(request, HttpRequest)
-#     data = {
-#         'title': "Lista Almacenes",
-#         'almacenes' : Almacen.objects.all()
-#     }
-#     return render(
-#         request,
-#         'pages/index.html',data
-#     )
-# @login_required
 class AlmacenesListView(LoginRequiredMixin,ListView):
     model = Almacen
     template_name = 'almacen/index.html'
@@ -46,29 +32,39 @@ class AlmacenesListView(LoginRequiredMixin,ListView):
         context['form'] = AlmacenesForm
         return context
 
-class AlmacenesCreateView(LoginRequiredMixin,SuccessMessageMixin, CreateView):
+class AlmacenesCreateView(PermissionRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, CreateView):
+    permission_required = 'almacen.add_almacen'
     model = Almacen
     form_class = AlmacenesForm
     success_url = reverse_lazy('almacenes')
-
     def form_valid(self, form):
       messages.success(self.request, _('success_insert_store'))
       return super().form_valid(form)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
         return context
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.has_perm('almacen.add_almacen'):           
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            messages.error(self.request, _('No_authorized'))
+            return redirect('almacenes')
 
-class AlmacenesUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
+class AlmacenesUpdateView(PermissionRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
+    permission_required = 'almacen.change_almacen'
     model = Almacen
     form_class = AlmacenesForm
     template_name = 'almacen/edit.html'
     success_url = reverse_lazy('almacenes')
-
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.has_perm('almacen.change_almacen'):           
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            messages.error(self.request, _('No_authorized'))
+            return redirect('almacenes')
     def form_valid(self, form):
       messages.success(self.request, _('success_udpate_store'))
-      return super().form_valid(form)
-    
+      return super().form_valid(form)    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
         almacenmercancias = Almacenmercancia.objects.filter(almacen=self.object)
@@ -79,11 +75,17 @@ class AlmacenesUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
         context['almacen'] = self.object
         return context
     
-class AlmacenesDeleteView(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
+class AlmacenesDeleteView(PermissionRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, DeleteView):
+    permission_required = 'almacen.delete_almacen'
     model = Almacen
     success_url = reverse_lazy('almacenes')
     # success_message = _('success_delete')
-
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.has_perm('almacen.delete_almacen'):           
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            messages.error(self.request, _('No_authorized'))
+            return redirect('almacenes')
     def form_valid(self, form):
       messages.success(self.request, _('success_delete_store'))
       return super().form_valid(form)
@@ -101,12 +103,18 @@ class MercanciasListView(LoginRequiredMixin,ListView):
         context['form'] = MercanciasForm
         return context
 
-class MercanciasCreateView(LoginRequiredMixin,SuccessMessageMixin, CreateView):
+class MercanciasCreateView(PermissionRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, CreateView):
+    permission_required = 'almacen.add_mercancia'
     model = Mercancia
     form_class = MercanciasForm
     success_url = reverse_lazy('mercancias')
     # success_message = _('success_insert')
-
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.has_perm('almacen.add_mercancia'):           
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            messages.error(self.request, _('No_authorized'))
+            return redirect('mercancias')
     def form_valid(self, form):
         self.object = form.save()
         almacenes = Almacen.objects.all()
@@ -119,7 +127,8 @@ class MercanciasCreateView(LoginRequiredMixin,SuccessMessageMixin, CreateView):
             almacenmercancia.save()
         return super().form_valid(form)
 
-class MercanciasUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
+class MercanciasUpdateView(PermissionRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
+    permission_required = 'almacen.change_mercancia'
     model = Mercancia
     form_class = MercanciasForm
     template_name = 'mercancia/edit.html'
@@ -129,23 +138,33 @@ class MercanciasUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     def form_valid(self, form):
       messages.success(self.request, _('success_udpate_product'))
       return super().form_valid(form)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.has_perm('almacen.change_mercancia'):           
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            messages.error(self.request, _('No_authorized'))
+            return redirect('mercancias')
 
-class MercanciasDeleteView(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
+class MercanciasDeleteView(PermissionRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, DeleteView):
+    permission_required = 'almacen.delete_mercancia'
     model = Mercancia
     success_url = reverse_lazy('mercancias')
     # success_message = _('success_delete')
     def form_valid(self, form):
       messages.success(self.request, _('success_delete_product'))
       return super().form_valid(form)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
-        return context   
-    
+        return context
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.has_perm('almacen.delete_mercancia'):           
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            messages.error(self.request, _('No_authorized'))
+            return redirect('mercancias')    
 
 class ClasificacionesListView(LoginRequiredMixin,ListView):
     model = Clasificaciones
@@ -156,12 +175,19 @@ class ClasificacionesListView(LoginRequiredMixin,ListView):
         context['form'] = ClasificacionesForm()
         return context
 
-class ClasificacionesCreateView(LoginRequiredMixin,SuccessMessageMixin, CreateView):
+class ClasificacionesCreateView(PermissionRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, CreateView):
+    permission_required = 'almacen.add_clasificaciones'
     model = Clasificaciones
     form_class = ClasificacionesForm
     # template_name = 'clasificacion/index.html'
     success_url = reverse_lazy('clasificaciones')
     # success_message = _('success_insert')
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.has_perm('almacen.add_clasificaciones'):           
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            messages.error(self.request, _('No_authorized'))
+            return redirect('clasificaciones')
 
     def form_valid(self, form):
       messages.success(self.request, _('success_insert_clasification'))
@@ -171,40 +197,48 @@ class ClasificacionesCreateView(LoginRequiredMixin,SuccessMessageMixin, CreateVi
         context = super().get_context_data(**kwargs) 
         return context
 
-class ClasificacionesUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
+class ClasificacionesUpdateView(PermissionRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
+    permission_required = 'almacen.change_clasificaciones'
     model = Clasificaciones
     form_class = ClasificacionesForm
     template_name = 'clasificacion/edit.html'
     success_url = reverse_lazy('clasificaciones')
     # success_message = _('success_update')
-
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.has_perm('almacen.change_clasificaciones'):           
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            messages.error(self.request, _('No_authorized'))
+            return redirect('clasificaciones')
     def form_valid(self, form):
       messages.success(self.request, _('success_update_clasification'))
       return super().form_valid(form)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
         return context
 
-class ClasificacionesDeleteView(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
+class ClasificacionesDeleteView(PermissionRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, DeleteView):
+    permission_required = 'almacen.delete_clasificaciones'
     model = Clasificaciones
     success_url = reverse_lazy('clasificaciones')
     success_message = _('success_delete')
-
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.has_perm('almacen.delete_clasificaciones'):           
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            messages.error(self.request, _('No_authorized'))
+            return redirect('clasificaciones')
     def form_valid(self, form):
       messages.success(self.request, _('success_delete_clasification'))
       return super().form_valid(form)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
         return context
 
-class RecepcionCreateView(LoginRequiredMixin,SuccessMessageMixin, CreateView):
+class RecepcionCreateView(PermissionRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, CreateView):
+    permission_required = 'almacen.add_recepcion'
     model = Recepcion
     form_class = RecepcionForm
-    # path('almacenes/<int:pk>/update/', AlmacenesUpdateView.as_view(), name='editar_almacen'),
-    # success_url = reverse_lazy('almacenes')
-    # success_message = _('success_insert')
     def form_valid(self, form):
         count = Recepcion.objects.all().count()
         self.object = form.save(commit=False)
@@ -215,13 +249,26 @@ class RecepcionCreateView(LoginRequiredMixin,SuccessMessageMixin, CreateView):
         self.object.save()
         messages.success(self.request, _('success_insert_reception'))
         return redirect('editar_recepcion', pk=self.object.id)
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.has_perm('almacen.add_recepcion'):           
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            messages.error(self.request, _('No_authorized'))
+            return redirect('editar_almacen', self.request.POST['almacenid'])
 
-class RecepcionUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
+class RecepcionUpdateView(PermissionRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
+    permission_required = 'almacen.change_recepcion'
     model = Recepcion
     form_class = RecepcionForm
     template_name = 'recepcion/edit.html'
     # success_url = reverse_lazy('almacenes')
     # success_message = _('success_update')
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.has_perm('almacen.change_recepcion'):           
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            messages.error(self.request, _('No_authorized'))
+            return redirect('editar_almacen', self.request.POST['almacenid'])
     def get_success_url(self):
         almacen_id = self.object.almacen_id 
         return reverse( 'editar_almacen', kwargs={'pk': almacen_id})
@@ -231,7 +278,6 @@ class RecepcionUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
         messages.success(self.request, _('success_update_reception'))
         return super(RecepcionUpdateView, self).form_valid(form)
         # return redirect('editar_almacen', pk=self.object.almacen_id)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
         formadd = AddRecepcionmercanciaForm()
@@ -280,9 +326,8 @@ def firmar_recepcion(request, pk):
         messages.add_message(request, messages.ERROR, _('error_sign_reception'))
         return redirect(reverse('editar_almacen', kwargs={"pk": recepcion.almacen_id}) + '#cardRecepciones')
     
-    
-
-class RecepcionmercanciaCreateView(LoginRequiredMixin,SuccessMessageMixin, CreateView):
+class RecepcionmercanciaCreateView(PermissionRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, CreateView):
+    permission_required = 'almacen.add_recepcionmercancias'
     model = Recepcionmercancias
     form_class = AddRecepcionmercanciaForm
     # path('almacenes/<int:pk>/update/', AlmacenesUpdateView.as_view(), name='editar_almacen'),
@@ -294,26 +339,36 @@ class RecepcionmercanciaCreateView(LoginRequiredMixin,SuccessMessageMixin, Creat
     def form_valid(self, form):
         # count = Recepcion.objects.all().count()
         self.object = form.save(commit=False)
-        # self.object.fecha = datetime.now()        
-        # self.object.activo = 0
         self.object.recepcion_id = self.request.POST['recepcion_id']
-        # self.object.numero = count+1
         self.object.save()
         messages.success(self.request, _('success_insert_receptionproduct'))
         return super(RecepcionmercanciaCreateView, self).form_valid(form)
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.has_perm('almacen.add_recepcionmercancias'):           
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            messages.error(self.request, _('No_authorized'))
+            return redirect('editar_recepcion', self.request.POST['recepcion_id'])
 
-class RecepcionmercanciaDeleteView(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
+class RecepcionmercanciaDeleteView(PermissionRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, DeleteView):
+    permission_required = 'almacen.delete_recepcionmercancias'
     model = Recepcionmercancias
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.has_perm('almacen.delete_recepcionmercancias'):           
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            messages.error(self.request, _('No_authorized'))
+            return redirect('editar_recepcion', self.request.POST['recepcion_id'])
     # success_message = _('success_delete')
     def form_valid(self, form):
       messages.success(self.request, _('success_delete_receptionproduct'))
       return super().form_valid(form)
-
     def get_success_url(self):
         recepcion_id = self.object.recepcion_id 
         return reverse( 'editar_recepcion', kwargs={'pk': recepcion_id})
 
-class RecepcionmercanciaUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
+class RecepcionmercanciaUpdateView(PermissionRequiredMixin,LoginRequiredMixin,SuccessMessageMixin, UpdateView):
+    permission_required = 'almacen.change_recepcionmercancias'
     model = Recepcionmercancias
     form_class = EditRecepcionmercanciaForm
     # path('almacenes/<int:pk>/update/', AlmacenesUpdateView.as_view(), name='editar_almacen'),
@@ -322,10 +377,15 @@ class RecepcionmercanciaUpdateView(LoginRequiredMixin,SuccessMessageMixin, Updat
     def form_valid(self, form):
       messages.success(self.request, _('success_udpate_receptionproduct'))
       return super().form_valid(form)
-
     def get_success_url(self):
         recepcion_id = self.object.recepcion_id 
         return reverse( 'editar_recepcion', kwargs={'pk': recepcion_id})
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.has_perm('almacen.change_recepcionmercancias'):           
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            messages.error(self.request, _('No_authorized'))
+            return redirect('editar_recepcion', self.request.POST['recepcion_id'])
 
         
     # def delete(self, *args, **kwargs):

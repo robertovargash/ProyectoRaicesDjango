@@ -17,6 +17,7 @@
                     <strong>{% translate "Product_Name"%}:</strong>
                     <input type="text" readonly id="editmercancia"  class="form-control" >
                 </div>
+                <input type="hidden" name="recepcion_id" value="{{ recepcion.id }}" class="form-control">
                   {% for field in formEditRecepcion.visible_fields %}
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">

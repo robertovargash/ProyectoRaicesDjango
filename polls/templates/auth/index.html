@@ -1,5 +1,5 @@
 {% extends "starter.html" %}
-{% load i18n %}
+<!-- {% load i18n %} -->
 {% block content %}
 <div class="content-wrapper">
     <section class="content-header">
@@ -7,9 +7,7 @@
           <div class="row mb-2">
             <div class="col-sm-6">
                 <div class="pull-right">
-                  {% if perms.almacen.add_clasificaciones %}
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAddClasificacion">{% translate "AddClasification"%}</button>
-                  {%endif%}
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAddUser">{% translate "AddUser"%}</button>
                 </div>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -21,31 +19,35 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">{% translate "clasification_list_header"%}</h3>
+                  <h3 class="card-title">{% translate "user_list_header"%}</h3>
                 </div>
                 <div class="card-body">
                   <table id="tablaClasificaciones" class="table table-bordered table-striped">
                       <thead>
                         <tr>
-                          <th>{% translate "Clasification_Name"%}</th>
-                          <th>{% translate "Clasification_Details"%}</th>
+                          <th>{{_("username")}}</th>
+                          <th>{{_("first name")}}</th>
+                          <th>{{_("last name")}}</th>
+                          <th>{{_("email address")}}</th>
+                          <th>{{_("staff status")}}</th>
+                          <th>{{_("active")}}</th>
                           <th></th>
                       </tr>
                       </thead>
                       <tbody>
-                        {% for clasificacion in object_list %}
+                        {% for user in object_list %}
                         <tr>
-                            <td>{{ clasificacion.clasificacion }}</td>
-                            <td>{{ clasificacion.detalles }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.first_name }}</td>
+                            <td>{{ user.last_name }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.is_staff }}</td>
+                            <td>{{ user.is_active }}</td>
                              <td>
                                 <div>
                                     <!-- <a href="" class="btn btn-link text-info">Detalles</a>                                   -->
-                                    {% if perms.almacen.change_clasificaciones %}
-                                    <a href="{% url 'editar_clasificacion' pk=clasificacion.id %}" class="btn btn-link text-primary">{% translate "BtnEdit"%}</a>
-                                    {%endif%}
-                                    {% if perms.almacen.delete_clasificaciones %}
-                                    <a href="{% url 'eliminar_clasificacion' clasificacion.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#delete-item-modal" onclick="delete_item(this)">{% translate "BtnDelete"%}</a>
-                                    {%endif%}
+                                    <a href="" class="btn btn-link text-primary">{% translate "BtnEdit"%}</a>
+                                    <a href="" class="btn btn-link text-danger" data-toggle="modal" data-target="#delete-item-modal" onclick="delete_item(this)">{% translate "BtnDelete"%}</a>
                                  </div>
                             </td>
                         </tr>
@@ -53,8 +55,12 @@
                       </tbody>
                       <tfoot>
                         <tr>
-                          <th>{% translate "Clasification_Name"%}</th>
-                          <th>{% translate "Clasification_Details"%}</th>
+                          <th>{{_("username")}}</th>
+                          <th>{{_("first name")}}</th>
+                          <th>{{_("last name")}}</th>
+                          <th>{{_("email address")}}</th>
+                          <th>{{_("staff status")}}</th>
+                          <th>{{_("active")}}</th>
                           <th></th>
                         </tr>
                       </tfoot>
@@ -67,8 +73,8 @@
       </section>
 </div>
 
-{% include 'clasificacion/modals/delete_modal.html' %}
-{% include 'clasificacion/modals/add_modal.html' %}
+{% include 'auth/modal/delete_user.html' %}
+{% include 'auth/modal/add_user.html' %}
   {% endblock %}
   {% block script %}
 

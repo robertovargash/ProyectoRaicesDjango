@@ -60,7 +60,9 @@
                     </div>
                     {%endfor%}
                   <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-success btn-block">{{_('StoreBtnUpdate')}}</button>
+                    {% if perms.almacen.change_almacen %}
+                      <button type="submit" class="btn btn-success btn-block">{{_('StoreBtnUpdate')}}</button>
+                    {%endif%}
                   </div>
                   </form>
                 </div>
@@ -114,78 +116,89 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-12">
-          <div class="card card-info">
-            <div class="card-header">
-              <h3 class="card-title">{% translate "TitleStoreReception"%}</h3>
-              <div class="card-tools">
-                <button id="cardRecepciones" type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+      {% if perms.almacen.view_recepcion %}
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">{% translate "TitleStoreReception"%}</h3>
+                <div class="card-tools">
+                  <button id="cardRecepciones" type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                </div>
               </div>
-            </div>
-            <div class="card-body">
-              <div class="pull-left mb-2">                
-                    <button type="button" class="btn btn-info AddRecepcion">{% translate "BtnAdd"%}</button>                    
+              <div class="card-body">
+                <div class="pull-left mb-2">
+                  {% if perms.almacen.sign_recepcion %}
+                  <button type="button" class="btn btn-info AddRecepcion">{% translate "BtnAdd"%}</button>
+                  {%endif%}
+                </div>
+                <table id="tablaRecepciones" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>{% translate "Reception_Status"%}</th>
+                      <th>{% translate "Reception_P_Reception"%}</th>
+                      <th>{% translate "Reception_P_Deliver"%}</th>
+                      <th>{% translate "Reception_Date"%}</th>
+                      <th>{% translate "Reception_Details"%}</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- LISTA DE RECEPCIONES AQUI FOREACH -->
+                    {% for recep in recepciones%}
+                    <tr>
+                      <td>{{recep.numero}}</td>
+                      <td>
+                        {% if recep.activo == 0%}
+                        <b>{% translate "Status_Process"%}</b>
+                        {% elif recep.activo == 1 %}
+                        <b class="text-success">{% translate "Status_Signed"%}</b>
+                        {% else %}
+                        <b class="text-danger">{% translate "Status_Cancelled"%}</b>
+                        {%endif%}
+                      </td>
+                      <td>{{recep.precibe}}</td>
+                      <td>{{recep.pentrega}}</td>
+                      <td>{{recep.fecha}}</td>
+                      <td>{{recep.observaciones}}</td>
+                      <td>
+                        <div class="d-inline">
+                            <!-- <a href="" class="btn btn-link text-info">Detalles</a>
+                            <a href="" class="btn btn-link text-info ">PDF</a> -->
+                                {% if perms.almacen.change_recepcion %}
+                                <a href="{% url 'editar_recepcion' recep.id %}" class="btn btn-link text-primary">{% translate "BtnEdit"%}</a>
+                                {%endif%}
+                                {% if perms.almacen.cancel_recepcion %}
+                                <a href="{% url 'cancelar_recepcion' recep.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#cancelRecepcionModal" onclick="cancel_recepcion(this,'{{recep.numero}}')">{% translate "BtnCancel"%}</a>
+                                {%endif%}
+                                {% if perms.almacen.sign_recepcion %}
+                                <a href="{% url 'firmar_recepcion' recep.id %}" class="btn btn-link text-success" data-toggle="modal" data-target="#firmarRecepcionModal" onclick="firmar_recepcion(this,'{{recep.numero}}')">{% translate "BtnSign"%}</a>
+                                {%endif%}
+                        </div>
+                  </td>
+                    </tr>
+                    {%endfor%}
+                    <!-- fin del foreach -->
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>#</th>
+                      <th>{% translate "Reception_Status"%}</th>
+                      <th>{% translate "Reception_P_Reception"%}</th>
+                      <th>{% translate "Reception_P_Deliver"%}</th>
+                      <th>{% translate "Reception_Date"%}</th>
+                      <th>{% translate "Reception_Details"%}</th>
+                      <th></th>
+                    </tr>
+                  </tfoot>
+              </table>
               </div>
-              <table id="tablaRecepciones" class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>{% translate "Reception_Status"%}</th>
-                    <th>{% translate "Reception_P_Reception"%}</th>
-                    <th>{% translate "Reception_P_Deliver"%}</th>
-                    <th>{% translate "Reception_Date"%}</th>
-                    <th>{% translate "Reception_Details"%}</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- LISTA DE RECEPCIONES AQUI FOREACH -->
-                  {% for recep in recepciones%}
-                  <tr>
-                    <td>{{recep.numero}}</td>
-                    <td>
-                      {% if recep.activo == 0%}
-                      <b>{% translate "Status_Process"%}</b>
-                      {% elif recep.activo == 1 %}
-                      <b class="text-success">{% translate "Status_Signed"%}</b>
-                      {% else %}
-                      <b class="text-danger">{% translate "Status_Cancelled"%}</b>
-                      {%endif%}
-                    </td>
-                    <td>{{recep.precibe}}</td>
-                    <td>{{recep.pentrega}}</td>
-                    <td>{{recep.fecha}}</td>
-                    <td>{{recep.observaciones}}</td>
-                    <td>
-                      <div class="d-inline">
-                          <!-- <a href="" class="btn btn-link text-info">Detalles</a>
-                          <a href="" class="btn btn-link text-info ">PDF</a> -->
-                              <a href="{% url 'editar_recepcion' recep.id %}" class="btn btn-link text-primary">{% translate "BtnEdit"%}</a>
-                              <a href="{% url 'cancelar_recepcion' recep.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#cancelRecepcionModal" onclick="cancel_recepcion(this,'{{recep.numero}}')">{% translate "BtnCancel"%}</a>
-                              <a href="{% url 'firmar_recepcion' recep.id %}" class="btn btn-link text-success" data-toggle="modal" data-target="#firmarRecepcionModal" onclick="firmar_recepcion(this,'{{recep.numero}}')">{% translate "BtnSign"%}</a>
-                      </div>
-                </td>
-                  </tr>
-                  {%endfor%}
-                  <!-- fin del foreach -->
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th>#</th>
-                    <th>{% translate "Reception_Status"%}</th>
-                    <th>{% translate "Reception_P_Reception"%}</th>
-                    <th>{% translate "Reception_P_Deliver"%}</th>
-                    <th>{% translate "Reception_Date"%}</th>
-                    <th>{% translate "Reception_Details"%}</th>
-                    <th></th>
-                  </tr>
-                </tfoot>
-            </table>
             </div>
           </div>
         </div>
-      </div>
+      {%endif%}
+      {% if perms.almacen.view_vale %}
       <div class="row">
         <div class="col-12">
           <div class="card card-warning">
@@ -223,8 +236,6 @@
                     <td>10/10/2020</td>
                     <td>uno ahi</td>
                     <td>
-                        <a href="" class="btn btn-link text-info ">Detalles</a>
-                        <a href="" class="btn btn-link text-info ">PDF</a>
                             <a href="" class="btn btn-link text-primary ">Editar</a>
                             <a href="" class="btn btn-link deleteVale text-danger" data-recepcion_id="{{recepcion.id}}" data-recepcion_no="{{recepcion.numero}}">Cancelar</a>
 
@@ -249,6 +260,7 @@
           </div>
         </div>
       </div>
+      {%endif%}
     </div>
   </div>
 </div>

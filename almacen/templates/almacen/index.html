@@ -7,7 +7,9 @@
           <div class="row mb-2">
             <div class="col-sm-6">
               <div class="pull-right">
+                {% if perms.almacen.add_almacen %}
                   <button type="button" class="btn btn-success mb-2 addAlmacen">{% translate "BtnAdd"%}</button>
+                {%endif%}
               </div>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -37,10 +39,13 @@
                             <td>{{ almacen.descripcion }}</td>
                             <td>
                               <div>
-                                 <!-- <a href="" class="btn btn-link text-info">Detalles</a>                                   -->
+                                 <!-- <a href="" class="btn btn-link text-info">Detalles</a>-->
+                                {% if perms.almacen.change_almacen %}
                                  <a href="{% url 'editar_almacen' pk=almacen.id %}" class="btn btn-link text-primary">{% translate "BtndEdit"%}</a>
+                                 {%endif%}
+                                 {% if perms.almacen.delete_almacen %}
                                  <a href="{% url 'eliminar_almacen' almacen.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#delete-item-modal" onclick="delete_item(this)">{% translate "BtnDelete"%}</a>
-
+                                {%endif%}
                               </div>
                            </td>
                           </tr>
