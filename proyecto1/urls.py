@@ -33,6 +33,9 @@ urlpatterns = [
     path('almacen/',include('almacen.urls')),
     path('user/',UserListView.as_view(), name='users'),
     path('user/new/',UserCreateView.as_view(),name='create_user'),
+    path('user/<int:pk>/update/',UserUpdateView.as_view(),name='update_user'),
+    path('user/<int:pk>/disable/',disable_user,name='disable_user'),
+    path('user/<int:pk>/enable/',enable_user,name='enable_user'),
     path('i18n/', include('django.conf.urls.i18n')),
 ]
 

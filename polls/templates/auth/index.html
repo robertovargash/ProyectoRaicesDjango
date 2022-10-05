@@ -46,9 +46,14 @@
                              <td>
                                 <div>
                                     <!-- <a href="" class="btn btn-link text-info">Detalles</a>                                   -->
-                                    <a href="" class="btn btn-link text-primary">{% translate "BtnEdit"%}</a>
-                                    <a href="" class="btn btn-link text-danger" data-toggle="modal" data-target="#delete-item-modal" onclick="delete_item(this)">{% translate "BtnDelete"%}</a>
+                                    <a href="{% url 'update_user' user.id %}" class="btn btn-link text-primary">{% translate "BtnEdit"%}</a>
+                                    {%if user.is_active == True%}
+                                    <a href="{% url 'disable_user' user.id %}" class="btn btn-link text-danger" data-toggle="modal" data-target="#disableUserModal" onclick="disable_user(this,'{{user.username}}')">{% translate "BtnDisable"%}</a>
+                                    {%else%}
+                                    <a href="{% url 'enable_user' user.id %}" class="btn btn-link text-success" data-toggle="modal" data-target="#enableUserModal" onclick="enable_user(this,'{{user.username}}')">{% translate "BtnEnable"%}</a>
+                                    {%endif%}
                                  </div>
+
                             </td>
                         </tr>
                         {% endfor %} 
@@ -73,46 +78,20 @@
       </section>
 </div>
 
-{% include 'auth/modal/delete_user.html' %}
+{% include 'auth/modal/disable_user.html' %}
+{% include 'auth/modal/enable_user.html' %}
 {% include 'auth/modal/add_user.html' %}
   {% endblock %}
   {% block script %}
 
 <script type="text/javascript">
-  function delete_item(selected_item){
-        document.getElementById("item-delete-form").action = selected_item.href
-  }
-  $(function () {
-    $('#tablaClasificaciones').DataTable({
-      "responsive": true,
-      "autoWidth": false,
-    });
-  });
-
-  $(document).ready(function () {
-    $('#addclasificacion').validate({
-      rules: {
-        clasificacion: {
-          required: true,
-        },
-      },
-      messages: {
-        clasificacion: {
-          required: "Inserte el nombre de clasificación",
-        },
-      },
-      errorElement: 'span',
-      errorPlacement: function (error, element) {
-        error.addClass('invalid-feedback');
-        element.closest('.form-group').append(error);
-      },
-      highlight: function (element, errorClass, validClass) {
-        $(element).addClass('is-invalid');
-      },
-      unhighlight: function (element, errorClass, validClass) {
-        $(element).removeClass('is-invalid');
-      }
-    });
-  });
+function disable_user(selected_item, username, question){
+        document.getElementById("modal-disableuser-body").innerHTML +="Desea deshabilitar el usuario "+ username +"?";
+        document.getElementById("disable_user_form").action = selected_item.href;        
+  } 
+  function enable_user(selected_item, username, question){
+        document.getElementById("modal-enableuser-body").innerHTML +="Desea habilitar el usuario "+ username +"?";
+        document.getElementById("enable_user_form").action = selected_item.href;        
+  } 
 </script>
   {% endblock %}
