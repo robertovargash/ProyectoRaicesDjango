@@ -158,7 +158,15 @@
                         <b class="text-danger">{% translate "Status_Cancelled"%}</b>
                         {%endif%}
                       </td>
-                      <td>{{recep.precibe}}</td>
+                      <td>
+                        {{recep.precibe}}
+                        {%if recep.activo == 1 %}
+                        | Autorized by: {{recep.pautoriza}}                        
+                        {%endif%}
+                        {%if recep.activo == 2 %}
+                        | No Autorized. Cancelled.                        
+                        {%endif%}
+                      </td>
                       <td>{{recep.pentrega}}</td>
                       <td>{{recep.fecha}}</td>
                       <td>{{recep.observaciones}}</td>

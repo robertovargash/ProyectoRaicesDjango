@@ -75,14 +75,12 @@ class RecepcionForm(ModelForm):
     class Meta:
         model = Recepcion
         # fields='__all__'
-        fields = ['proveedor', 'contrato','factura','precibe','pentrega','pautoriza','observaciones']
+        fields = ['proveedor', 'contrato','factura','pentrega','observaciones']
         labels = {            
             'proveedor': _('Reception_Provider'),
             'contrato': _('Reception_Contract'),
             'factura':_('Reception_Invoice'),
-            'precibe': _('Reception_P_Reception'),
             'pentrega': _('Reception_P_Deliver'),
-            'pautoriza': _('Reception_P_Autorize'),
             'observaciones': _('Reception_Details')
         }
         widgets = {   
@@ -104,22 +102,10 @@ class RecepcionForm(ModelForm):
                     'placeholder':_('Reception_Invoice')
                 }
             ),
-            'precibe': TextInput(
-                attrs={
-                    'class':'form-control',
-                    'placeholder':_('Reception_P_Reception')
-                }
-            ),
              'pentrega': TextInput(
                 attrs={
                     'class':'form-control',
                     'placeholder':_('Reception_P_Deliver')
-                }
-            ),
-             'pautoriza': TextInput(
-                attrs={
-                    'class':'form-control',
-                    'placeholder':_('Reception_P_Autorize')
                 }
             ),
             'observaciones': Textarea(

@@ -239,10 +239,12 @@ class RecepcionCreateView(PermissionRequiredMixin,LoginRequiredMixin,SuccessMess
     permission_required = 'almacen.add_recepcion'
     model = Recepcion
     form_class = RecepcionForm
+   
     def form_valid(self, form):
-        count = Recepcion.objects.all().count()
+        count = Recepcion.objects.all().count()        
         self.object = form.save(commit=False)
-        self.object.fecha = datetime.now()        
+        self.object.fecha = datetime.now()
+        self.object.precibe = self.request.user
         self.object.activo = 0
         self.object.almacen_id = self.request.POST['almacenid']
         self.object.numero = count+1
@@ -291,10 +293,12 @@ class RecepcionUpdateView(PermissionRequiredMixin,LoginRequiredMixin,SuccessMess
         return context
 
 @login_required(login_url='/accounts/login/')
+@permission_required('almacen.cancel_recepcion')
 def cancelar_recepcion(request, pk):
     recepcion = Recepcion.objects.get(pk=pk)
     if recepcion.activo == 0:
         recepcion.activo = 2
+        recepcion.pautoriza = "Nobody, Cancelled"
         recepcion.save()
         mess = _('success_cancel_reception')
         messages.add_message(request, messages.SUCCESS, mess)
@@ -305,6 +309,7 @@ def cancelar_recepcion(request, pk):
         return redirect(reverse('editar_almacen', kwargs={"pk": recepcion.almacen_id}) + '#cardRecepciones')
 
 @login_required(login_url='/accounts/login/')
+@permission_required('almacen.sign_recepcion')
 def firmar_recepcion(request, pk):
     recepcion = Recepcion.objects.get(pk=pk)
     recepcionesmercancias = Recepcionmercancias.objects.filter(recepcion_id=recepcion.id)
@@ -319,6 +324,7 @@ def firmar_recepcion(request, pk):
             mercancia.precio = ((precio1*cantidad1) +  (recepmerc.precio*recepmerc.cantidad))/(cantidad1 + recepmerc.cantidad)
             almacenmercancia.save()
             mercancia.save()
+        recepcion.pautoriza = request.user.first_name + " " + request.user.last_name
         recepcion.save()
         messages.add_message(request, messages.SUCCESS, _('success_sign_reception'))
         return redirect(reverse('editar_almacen', kwargs={"pk": recepcion.almacen_id}) + '#cardRecepciones')
