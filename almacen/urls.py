@@ -1,8 +1,7 @@
 from unicodedata import name
 from django.urls import path
-from polls import views
-from almacen.views import *
 from django.contrib.auth import views as auth_views
+from almacen.views import *
 
 urlpatterns = [
     # path('', views.home, name='home'),
